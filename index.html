@@ -216,6 +216,7 @@ button.fila-b:hover,.fila-b[aria-expanded="true"]{background:var(--tablilla)}
 .detalle{display:grid;gap:var(--e-2);justify-items:start;padding:var(--e-4) var(--e-4) var(--e-4);margin-top:-0.25rem;background:var(--tablilla);border-radius:0 0 var(--r-fila) var(--r-fila);font-size:.95rem;color:var(--suave)}
 .detalle[hidden]{display:none}
 .detalle b{color:var(--cemento)}
+.detalle a.ig{color:var(--flap);font-weight:600;text-decoration:underline;text-underline-offset:.2em}
 .detalle .cerca{display:grid;gap:var(--e-2);justify-items:start}
 .detalle .cerca[hidden],.detalle .alt[hidden]{display:none}
 .detalle .alt{padding:0;text-align:left;background:none;border:0;color:var(--flap);font:600 .95rem var(--texto);text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
@@ -960,7 +961,7 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
       orden.forEach(function (id) { zonas[id].lugares = []; });
       rows.forEach(function (r) {
         var z = zonas[r.zona]; if (!z) return;
-        var l = { id: String(r.id), zona: r.zona, nombre: String(r.nombre), direccion: r.direccion ? String(r.direccion) : '', musica: MUSICAS[r.musica] || String(r.musica || ''), x: +r.x, y: +r.y, st: 'sin', s: {}, n: 0, ultimo: 0, tranc: false };
+        var l = { id: String(r.id), zona: r.zona, nombre: String(r.nombre), direccion: r.direccion ? String(r.direccion) : '', instagram: /^[A-Za-z0-9._]{1,30}$/.test(r.instagram || '') ? r.instagram : '', musica: MUSICAS[r.musica] || String(r.musica || ''), x: +r.x, y: +r.y, st: 'sin', s: {}, n: 0, ultimo: 0, tranc: false };
         l.calor = crear('circle', { 'class': 'calor sinrep', cx: l.x, cy: l.y, r: 8 }, capaCalor);
         l.g = crear('g', { 'class': 'pin sinrep' }, capaPines);
         crear('circle', { 'class': 'toque', r: 11 }, l.g);
@@ -1021,6 +1022,10 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
       f.dRep = nodo('p', null, '', det);
       var p3 = nodo('p', null, 'Tráfico para llegar: ', det); f.dTraf = nodo('b', null, '', p3);
       if (f.lugar.direccion) nodo('p', null, 'Dirección: ' + f.lugar.direccion, det);
+      if (f.lugar.instagram) {
+        var ig = nodo('a', 'ig', 'Instagram: @' + f.lugar.instagram, det);
+        ig.href = 'https://www.instagram.com/' + f.lugar.instagram + '/'; ig.target = '_blank'; ig.rel = 'noopener noreferrer';
+      }
       f.dAlt = nodo('div', 'cerca', null, det);
       f.dAltT = nodo('p', null, '', f.dAlt);
       f.dAltB = [0, 1].map(function () {
