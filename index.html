@@ -171,6 +171,7 @@ p{margin:0;text-wrap:pretty}
 .zona ellipse{fill:rgba(255,79,163,.06);stroke:#FF4FA3;stroke-opacity:.5;stroke-width:1.2;stroke-dasharray:3 3;transition:fill .3s,stroke-opacity .3s}
 .zona:hover ellipse{fill:rgba(255,79,163,.14);stroke-opacity:.9}
 .zona.activa ellipse{fill:rgba(255,79,163,.16);stroke-opacity:1;stroke-dasharray:none;filter:url(#brillo)}
+.et{transition:opacity .3s}.et.sin-et{opacity:0}
 .et text{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.06em;fill:var(--cemento);text-transform:uppercase;paint-order:stroke;stroke:#10131F;stroke-width:3px;pointer-events:none}
 .calor{pointer-events:none;mix-blend-mode:screen;transition:opacity .4s}
 .calor.tranquilo{fill:url(#calor-verde)}.calor.animado{fill:url(#calor-flap)}.calor.casi,.calor.lleno{fill:url(#calor-rojo)}
@@ -933,6 +934,7 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
       estado.zona = id; estado.lugar = null;
       chips.forEach(function (c) { c.setAttribute('aria-pressed', String((c.dataset.zona || null) === id)); });
       orden.forEach(function (z) { zonas[z].g.classList.toggle('activa', z === id); });
+      etiquetas.forEach(function (e, i) { e.g.classList.toggle('sin-et', orden[i] === id); });
       lugares.forEach(function (l) { var en = l.zona === id; l.g.classList.toggle('en-zona', en); l.calor.classList.toggle('en-zona', en); l.g.classList.remove('activo'); });
       plano.classList.toggle('cerca', !!id);
       volver.hidden = !id;
