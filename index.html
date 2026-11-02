@@ -603,8 +603,9 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
             <div class="campo"><label for="s-nombre">Nombre del lugar</label><input id="s-nombre" name="nombre_lugar" required minlength="2" maxlength="60" autocomplete="off"></div>
             <div class="campo"><label for="s-zona">Zona</label>
               <select id="s-zona" name="zona" required>
-                <option value="Usaquén">Usaquén</option><option value="Parque 93">Parque 93</option><option value="Zona T">Zona T</option><option value="Zona G">Zona G</option><option value="Chapinero">Chapinero</option><option value="Galerías">Galerías</option><option value="La Candelaria">La Candelaria</option>
+                <option value="Usaquén">Usaquén</option><option value="Parque 93">Parque 93</option><option value="Zona T">Zona T</option><option value="Zona G">Zona G</option><option value="Chapinero">Chapinero</option><option value="Galerías">Galerías</option><option value="La Candelaria">La Candelaria</option><option value="Otra">Otra zona</option>
               </select></div>
+            <div class="campo" id="s-otra-campo" hidden><label for="s-otra">¿Cuál zona o barrio?</label><input id="s-otra" name="zona_otra" minlength="2" maxlength="60" autocomplete="off" disabled></div>
             <div class="campo"><label for="s-dir">Dirección o barrio <span class="opc">(opcional)</span></label><input id="s-dir" name="direccion" maxlength="100" autocomplete="off"></div>
             <button class="boton" type="submit">Sugerir lugar</button>
             <p class="estado-envio" id="s-estado" role="status"></p>
@@ -1504,12 +1505,19 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
 
   /* ===== Sugerir un lugar (FormSubmit, sin datos personales) ===== */
   (function () {
-    var f = $('form-sugerencia'), est = $('s-estado');
+    var f = $('form-sugerencia'), est = $('s-estado'), zona = $('s-zona'), otra = $('s-otra');
+    function verOtra() {
+      var si = zona.value === 'Otra';
+      $('s-otra-campo').hidden = !si; otra.disabled = !si; otra.required = si;
+    }
+    zona.addEventListener('change', function () { verOtra(); if (otra.required) otra.focus(); });
+    f.addEventListener('reset', function () { setTimeout(verOtra, 0); });
     f.addEventListener('submit', function (ev) {
       ev.preventDefault();
       function aviso(t, c) { est.textContent = t; est.className = 'estado-envio ' + (c || ''); }
       var nombre = f.elements.nombre_lugar.value.trim();
       if (nombre.length < 2 || nombre.length > 60) { aviso('El nombre debe tener entre 2 y 60 letras.', 'error'); return; }
+      if (otra.required && otra.value.trim().length < 2) { aviso('Escribe en qué zona o barrio queda.', 'error'); otra.focus(); return; }
       if (f.elements._honey.value) { aviso('Gracias, lo revisamos y lo agregamos si cumple.', 'ok'); return; }
       if (!window.fetch || !window.FormData) { f.submit(); return; }
       var btn = f.querySelector('button[type=submit]'); btn.disabled = true; aviso('Enviando…');
