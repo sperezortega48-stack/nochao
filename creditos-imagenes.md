@@ -1,4 +1,4 @@
-# Créditos de imágenes y recursos — Parchao
+# Créditos de imágenes y recursos — Nochao
 
 | Archivo | Origen | Autor | Licencia (URL) | ¿Personas reconocibles? | Autorización | Verificado |
 |---|---|---|---|---|---|---|
