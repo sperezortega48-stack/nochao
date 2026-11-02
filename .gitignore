@@ -1,0 +1,4 @@
+*.psd
+originales/
+.env
+registros/

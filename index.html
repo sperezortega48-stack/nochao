@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<!-- Diseño y desarrollo: Santiago Pérez — S&S Generation AI · ssgeneration.lat -->
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parchao · Planes y parches para salir en Bogotá</title>
+<meta name="description" content="¿Quieres salir y no tienes con quién? Parchao junta a la gente que quiere salir en Bogotá: planes, parches con chat de grupo y un mapa que dice qué tan llena está cada discoteca.">
+<meta name="author" content="Santiago Pérez — S&S Generation AI">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; frame-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#10131F">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Parchao · ¿Sin parche para salir?">
+<meta property="og:description" content="Planes, parches con chat de grupo y el aforo de las discotecas de Bogotá en un mapa. Fase de prueba, solo mayores de 18.">
+<meta property="og:image" content="https://sperezortega48-stack.github.io/parchao/assets/hero.jpg">
+<meta property="og:locale" content="es_CO">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,100..900&family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#10131F; --asfalto:#1B2033; --tablilla:#252B44; --raya:#2C334D;
+  --flap:#FFC21A; --neon:#FF4FA3; --neon-osc:#B8125F;
+  --verde:#33D17A; --rojo:#FF5A4E;
+  --cemento:#ECEAE4; --tinta:#10131F; --suave:rgba(236,234,228,.74);
+  --display:"Big Shoulders","Arial Narrow",sans-serif;
+  --texto:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --salida:cubic-bezier(0.16,1,0.3,1);
+  --resorte:linear(0,0.009,0.035 2.1%,0.141,0.281 6.7%,0.723 12.9%,0.938 16.7%,1.017,1.077,1.121,1.149 24.3%,1.159,1.163,1.161,1.154 29.9%,1.129 32.8%,1.051 39.6%,1.017 43.1%,0.991,0.977 51%,0.974 53.8%,0.975 57.1%,0.997 69.8%,1.003 76.9%,1.004 83.8%,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{overflow-x:clip}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--noche);color:var(--cemento);font:400 1.0625rem/1.6 var(--texto);-webkit-font-smoothing:antialiased}
+img,video,svg{display:block;max-width:100%}
+a{color:inherit;text-underline-offset:.2em}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.92;margin:0;text-wrap:balance;text-transform:uppercase}
+p{margin:0;text-wrap:pretty}
+.envoltura{width:min(100% - 2rem,1240px);margin-inline:auto}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.salto{position:absolute;left:1rem;top:-4rem;z-index:50;background:var(--flap);color:var(--tinta);padding:.6rem 1rem;font-weight:700}
+.salto:focus{top:1rem}
+:focus-visible{outline:3px solid var(--flap);outline-offset:3px}
+.claro :focus-visible,.lista :focus-visible{outline-color:var(--neon-osc)}
+
+/* Botones: tablillas del tablero */
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:50px;padding:.8rem 1.35rem;font:700 1.02rem/1.1 var(--texto);text-decoration:none;border:2px solid var(--flap);background:var(--flap);color:var(--tinta);border-radius:3px;cursor:pointer;transition:transform .35s var(--resorte),background-color .25s,color .25s}
+.boton:hover{transform:translateY(-2px)}
+.boton:active{transform:translateY(1px)}
+.boton.linea{background:transparent;color:var(--cemento);border-color:rgba(236,234,228,.55)}
+.boton.linea:hover{border-color:var(--cemento)}
+.boton.oscuro{background:var(--tinta);border-color:var(--tinta);color:var(--flap)}
+.boton[disabled]{opacity:.6;cursor:wait}
+.etiqueta-ejemplo{display:inline-block;font:700 .78rem/1 var(--texto);letter-spacing:.08em;text-transform:uppercase;color:var(--tinta);background:var(--neon);padding:.4rem .55rem;border-radius:2px}
+
+/* Cabecera */
+.cabecera{position:sticky;top:0;z-index:30;background:var(--noche);border-bottom:2px dashed rgba(255,194,26,.35);transition:transform .4s var(--salida)}
+.cabecera.oculta{transform:translateY(-105%)}
+.cabecera .envoltura{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:66px}
+.marca{font-family:var(--display);font-weight:900;font-size:1.9rem;letter-spacing:.08em;line-height:1;color:var(--neon);text-decoration:none;text-shadow:0 0 4px rgba(255,79,163,.8),0 0 16px rgba(255,79,163,.45)}
+.cabecera nav{display:flex;align-items:center;gap:1.75rem}
+.cabecera ul{display:flex;gap:1.5rem;list-style:none;margin:0;padding:0}
+.cabecera ul a{text-decoration:none;font-weight:500;font-size:.98rem;color:var(--suave)}
+.cabecera ul a:hover{color:var(--cemento);text-decoration:underline}
+.cabecera .boton{min-height:44px;padding:.55rem 1rem;font-size:.95rem}
+@media (max-width:899px){.cabecera ul{display:none}.marca{font-size:1.6rem}}
+
+/* Hero */
+.hero{position:relative;display:grid;align-content:end;min-height:calc(100svh - 66px);padding-bottom:clamp(2rem,5vw,4.5rem);isolation:isolate}
+.hero-medio{position:absolute;inset:0;z-index:-2;background:var(--noche)}
+.hero-medio video,.hero-medio img{width:100%;height:100%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(to top,var(--noche) 0%,rgba(16,19,31,.88) 26%,rgba(16,19,31,0) 58%)}
+.hero-rejilla{display:grid;gap:2rem;align-items:end}
+.hero h1{font-size:clamp(3.6rem,10.4vw,10.5rem);font-weight:900;letter-spacing:-.005em;max-width:11ch}
+.hero-lado{display:grid;gap:1.4rem;max-width:34rem}
+.hero-lado p{font-size:clamp(1.05rem,1.4vw,1.2rem);color:var(--suave)}
+.hero-lado strong{color:var(--cemento);font-weight:700}
+.acciones{display:flex;flex-wrap:wrap;gap:.75rem}
+.tira{display:flex;flex-wrap:wrap;gap:.4rem;margin:0;padding:0;list-style:none}
+.tira li{font:700 1.02rem/1 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--flap);background:var(--tablilla);padding:.45rem .6rem;border-radius:2px;position:relative}
+.tira li::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.55)}
+.reproducir{display:none;position:absolute;right:1rem;top:1rem;z-index:3;align-items:center;gap:.5rem;font:600 .9rem var(--texto);color:var(--cemento);background:rgba(16,19,31,.8);border:1.5px solid rgba(236,234,228,.5);border-radius:3px;padding:.55rem .8rem;min-height:44px;cursor:pointer}
+.reproducir::before{content:"";width:0;height:0;border-left:10px solid currentColor;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.movimiento-reducido .reproducir{display:inline-flex}
+@media (min-width:900px){
+  .hero{min-height:0;align-content:start;padding-top:calc(56.25vw * .66)}
+  .hero-medio{inset:0 0 auto 0;height:56.25vw}
+  .hero-medio::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--noche) 0%,rgba(16,19,31,.7) 22%,rgba(16,19,31,0) 42%)}
+  .hero::after{display:none}
+  .hero-rejilla{grid-template-columns:1.35fr 1fr}
+}
+@media (max-width:899px){
+  .hero{min-height:0;padding-top:0}
+  .hero-medio{position:relative;inset:auto;aspect-ratio:16/9;margin-bottom:1.75rem}
+  .hero::after{display:none}
+}
+
+/* Tablero de salidas */
+.salidas{background:var(--asfalto);padding-block:clamp(4.5rem,9vw,8rem)}
+.salidas-cabeza{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1.5rem 2rem;margin-bottom:2.25rem}
+.salidas h2{font-size:clamp(2.8rem,7.4vw,6.4rem);color:var(--flap);font-weight:900}
+.salidas-cabeza p{max-width:28rem;color:var(--suave);margin-top:1rem}
+.filtros{display:flex;flex-wrap:wrap;gap:.5rem}
+.filtros button{font:600 .95rem var(--texto);color:var(--cemento);background:transparent;border:1.5px solid rgba(236,234,228,.32);padding:.5rem .85rem;border-radius:3px;cursor:pointer;min-height:44px}
+.filtros button:hover{border-color:var(--cemento)}
+.filtros button[aria-pressed="true"]{background:var(--flap);border-color:var(--flap);color:var(--tinta)}
+.tablero-titulos,.salida{display:grid;grid-template-columns:5.6rem minmax(0,2.3fr) minmax(0,1.1fr) minmax(0,1fr) 4.6rem 9.4rem 6.6rem;gap:1rem;align-items:center}
+.tablero-titulos{font:600 .78rem var(--texto);letter-spacing:.12em;text-transform:uppercase;color:rgba(236,234,228,.62);padding:.8rem 0;border-bottom:1px solid var(--raya)}
+.tablero{list-style:none;margin:0;padding:0}
+.salida{padding:1rem 0;border-bottom:1px solid var(--raya);font:700 1.4rem/1.15 var(--display);text-transform:uppercase;letter-spacing:.05em;color:var(--flap)}
+.salida[hidden]{display:none}
+.salida .parche{color:var(--cemento)}
+.estado-abordando{color:var(--verde)}
+.estado-ultimos{color:var(--flap)}
+.estado-lleno{color:var(--rojo)}
+.salida .boton{min-height:44px;padding:.5rem .8rem;font-size:.9rem;justify-self:end}
+.salida .boton[aria-disabled="true"]{background:transparent;color:rgba(236,234,228,.55);border-color:var(--raya);pointer-events:none}
+.palabra{display:inline-block;white-space:nowrap}
+.ch{display:inline-block;position:relative;min-width:.62em;text-align:center;background:var(--tablilla);border-radius:2px;margin-right:2px;padding:0 .05em;backface-visibility:hidden}
+.ch::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.55)}
+.nota{margin-top:1.4rem;display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;color:var(--suave);font-size:.95rem}
+@media (max-width:899px){
+  .tablero-titulos{display:none}
+  .salida{grid-template-columns:auto 1fr auto;grid-template-areas:"hora estado estado" "parche parche parche" "zona zona cupos" "musica musica unirme";gap:.45rem .9rem;font-size:1.15rem}
+  .salida .hora{grid-area:hora}.salida .parche{grid-area:parche;font-size:1.45rem}.salida .zona{grid-area:zona}
+  .salida .musica{grid-area:musica}.salida .cupos{grid-area:cupos;justify-self:end}.salida .estado{grid-area:estado;justify-self:end}
+  .salida .boton{grid-area:unirme}
+}
+
+/* Pasos: un boleto con perforaciones */
+.claro{background:var(--cemento);color:var(--tinta)}
+.pasos{padding-block:clamp(4.5rem,9vw,8rem)}
+.pasos h2{font-size:clamp(2.6rem,6.6vw,5.6rem);max-width:13ch;margin-bottom:2.75rem}
+.boleto{list-style:none;margin:0;padding:0;display:grid;background:var(--noche);color:var(--cemento);border-radius:6px;position:relative}
+.boleto li{position:relative;padding:clamp(1.6rem,3vw,2.6rem);display:grid;gap:.7rem;align-content:start}
+.boleto .n{font:900 clamp(3.4rem,6vw,5rem)/.8 var(--display);color:var(--flap)}
+.boleto h3{font-size:clamp(1.8rem,3vw,2.5rem)}
+.boleto p{color:var(--suave)}
+.boleto li+li{border-top:2px dashed rgba(236,234,228,.28)}
+@media (min-width:900px){
+  .boleto{grid-template-columns:repeat(3,1fr)}
+  .boleto li+li{border-top:0;border-left:2px dashed rgba(236,234,228,.28)}
+  .boleto li+li::before,.boleto li+li::after{content:"";position:absolute;left:-13px;width:24px;height:24px;border-radius:50%;background:var(--cemento)}
+  .boleto li+li::before{top:-12px}.boleto li+li::after{bottom:-12px}
+}
+
+/* Mapa de aforo */
+.mapa{padding-block:clamp(4.5rem,9vw,8rem)}
+.mapa-cabeza{display:grid;gap:1rem;margin-bottom:2.5rem}
+.mapa h2{font-size:clamp(2.8rem,7.4vw,6.4rem);font-weight:900}
+.mapa-cabeza p{max-width:36rem;color:var(--suave)}
+.mapa-rejilla{display:grid;gap:2rem;align-items:start}
+@media (min-width:900px){.mapa-rejilla{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.mapa-cabeza{grid-template-columns:1fr 1fr;align-items:end}}
+.plano{background:#141829;border:1px solid var(--raya);border-radius:6px;overflow:clip}
+.plano svg{width:100%;height:auto}
+.plano text{font-family:var(--texto);fill:rgba(236,234,228,.62);font-size:10px}
+.plano .zona-t{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.06em;fill:var(--cemento);text-transform:uppercase}
+.pin circle{transform-box:fill-box;transform-origin:center;transition:fill .6s}
+.pin .halo{opacity:.35}
+.pin.tranquilo circle{fill:var(--verde)}.pin.animado circle{fill:var(--flap)}.pin.casi circle,.pin.lleno circle{fill:var(--rojo)}
+.pin.activo .punto{stroke:var(--cemento);stroke-width:3}
+.lugares{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.lugar{display:grid;grid-template-columns:1fr auto;gap:.25rem 1rem;padding:1rem 1.1rem;background:var(--asfalto);border-radius:4px;border-left:4px solid var(--verde);cursor:default;transition:background-color .25s}
+.lugar:hover,.lugar.activo{background:var(--tablilla)}
+.lugar h3{font-size:1.45rem;letter-spacing:.03em}
+.lugar h3 small{font:500 .78rem var(--texto);text-transform:none;color:rgba(236,234,228,.6);letter-spacing:0}
+.lugar .donde{grid-column:1;color:var(--suave);font-size:.92rem}
+.lugar .lectura{grid-column:2;grid-row:1/3;text-align:right;font:800 1.6rem/1 var(--display)}
+.lugar .lectura span{display:block;font:600 .8rem/1.3 var(--texto);text-transform:uppercase;letter-spacing:.06em}
+.barra{grid-column:1/-1;height:6px;background:var(--raya);border-radius:3px;overflow:hidden;margin-top:.45rem}
+.barra i{display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(var(--v,.5));background:currentColor;transition:transform .9s var(--salida)}
+.lugar.tranquilo{border-left-color:var(--verde)}.lugar.tranquilo .lectura,.lugar.tranquilo .barra{color:var(--verde)}
+.lugar.animado{border-left-color:var(--flap)}.lugar.animado .lectura,.lugar.animado .barra{color:var(--flap)}
+.lugar.casi,.lugar.lleno{border-left-color:var(--rojo)}.lugar.casi .lectura,.lugar.casi .barra,.lugar.lleno .lectura,.lugar.lleno .barra{color:var(--rojo)}
+.leyenda{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:1rem 0 0;padding:0;list-style:none;font-size:.9rem;color:var(--suave)}
+.leyenda li::before{content:"";display:inline-block;width:.8em;height:.8em;border-radius:50%;margin-right:.45em;vertical-align:-.05em;background:var(--c)}
+
+/* Seguridad */
+.seguridad{padding-block:clamp(4.5rem,9vw,8rem)}
+.seguridad-cabeza{display:grid;gap:1.5rem;margin-bottom:3rem}
+.seguridad h2{font-size:clamp(2.8rem,7vw,6.2rem);font-weight:900;max-width:14ch}
+.seguridad-cabeza p{max-width:38rem;font-size:1.1rem}
+.aviso-plan{font-size:.95rem!important;color:#4a4d57}
+.reglas{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:2px solid var(--tinta)}
+.regla{display:grid;grid-template-columns:2.2rem 1fr;gap:.25rem 1rem;padding:1.4rem 0;border-bottom:1px solid rgba(16,19,31,.18)}
+.regla::before{content:"";grid-row:1/3;width:1.4rem;height:.75rem;margin-top:.45rem;border-left:4px solid var(--neon-osc);border-bottom:4px solid var(--neon-osc);transform:rotate(-45deg)}
+.regla h3{font-size:clamp(1.5rem,2.4vw,2rem)}
+.regla p{color:#3b3e48}
+@media (min-width:900px){.reglas{grid-template-columns:1fr 1fr;column-gap:3rem}.seguridad-cabeza{grid-template-columns:1.1fr 1fr;align-items:end}}
+.ciudad{margin-top:3.5rem;display:grid;gap:1.5rem;align-items:stretch}
+@media (min-width:900px){.ciudad{grid-template-columns:1.25fr 1fr}}
+.llegue{margin:0;background:var(--noche);color:var(--cemento);border-radius:6px;padding:clamp(1.5rem,3vw,2.4rem);display:grid;gap:1.2rem;align-content:start;border:2px dashed rgba(255,194,26,.4)}
+.llegue-app{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.llegue-app .marca{font-size:1.5rem}
+.llegue-parche{font:800 clamp(1.6rem,2.6vw,2.2rem)/1 var(--display);text-transform:uppercase;color:var(--flap)}
+.llegue-linea{list-style:none;margin:0;padding:0 0 0 1.4rem;display:grid;gap:1rem;border-left:2px solid var(--raya)}
+.llegue-linea li{position:relative;display:grid;gap:.1rem;color:var(--suave)}
+.llegue-linea li::before{content:"";position:absolute;left:calc(-1.4rem - 7px);top:.35rem;width:12px;height:12px;border-radius:50%;background:var(--raya)}
+.llegue-linea b{font:800 1.3rem/1 var(--display);color:var(--cemento);letter-spacing:.04em}
+.llegue-linea .hecho{color:var(--cemento);font-weight:600}
+.llegue-linea .hecho::before{background:var(--verde);box-shadow:0 0 0 4px rgba(51,209,122,.25)}
+.llegue figcaption{font-size:.92rem;color:var(--suave);border-top:1px solid var(--raya);padding-top:1rem}
+.llegue figcaption b{color:var(--cemento)}
+.consejos{background:var(--noche);color:var(--cemento);border-radius:6px;padding:clamp(1.5rem,3vw,2.4rem);display:grid;gap:1.1rem;align-content:start}
+.consejos h3{font-size:2rem;color:var(--flap)}
+.consejos ul{margin:0;padding-left:1.1rem;display:grid;gap:.6rem;color:var(--suave)}
+.lineas{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.4rem}
+.lineas a{display:grid;text-decoration:none;background:var(--asfalto);border-radius:4px;padding:.7rem 1rem;min-width:9rem}
+.lineas b{font:900 2.4rem/1 var(--display);color:var(--neon)}
+.lineas span{font-size:.85rem;color:var(--suave)}
+
+/* Aforo y cover */
+.aforo{padding-block:clamp(4.5rem,9vw,8rem)}
+.aforo-rejilla{display:grid;gap:2.5rem;align-items:center}
+@media (min-width:900px){.aforo-rejilla{grid-template-columns:1.1fr 1fr}}
+.aforo h2{font-size:clamp(2.8rem,6.8vw,6rem);font-weight:900;max-width:12ch;margin-bottom:1.5rem}
+.aforo .intro{color:var(--suave);font-size:1.1rem;max-width:34rem;margin-bottom:2rem}
+.puntos{list-style:none;margin:0;padding:0;display:grid;gap:1.25rem}
+.puntos li{display:grid;gap:.3rem;padding-left:1.25rem;border-left:3px solid var(--neon)}
+.puntos h3{font-size:1.6rem;letter-spacing:.02em}
+.puntos p{color:var(--suave)}
+.puntos .pronto{font:700 .75rem/1 var(--texto);letter-spacing:.08em;color:var(--tinta);background:var(--flap);padding:.25rem .4rem;border-radius:2px;vertical-align:.3em;margin-left:.4rem}
+.cover{position:relative;aspect-ratio:1;border-radius:6px;overflow:clip;background:var(--asfalto)}
+.cover video,.cover img{width:100%;height:100%;object-fit:cover}
+.franja{position:relative;margin-top:clamp(4rem,8vw,7rem);min-height:clamp(300px,44vw,520px);display:grid;align-items:end;overflow:clip;isolation:isolate;background:var(--neon-osc)}
+.franja::before,.franja::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
+.franja::before{background-image:radial-gradient(circle,var(--noche) 3.4px,transparent 4px);background-size:12px 12px;-webkit-mask-image:linear-gradient(105deg,transparent 20%,#000 75%);mask-image:linear-gradient(105deg,transparent 20%,#000 75%)}
+.franja::after{background-image:radial-gradient(circle,var(--flap) 1.6px,transparent 2.1px);background-size:12px 12px;background-position:6px 6px;-webkit-mask-image:linear-gradient(105deg,#000 0%,transparent 45%);mask-image:linear-gradient(105deg,#000 0%,transparent 45%);opacity:.55}
+.franja p{font:900 clamp(2.6rem,8vw,7.5rem)/.9 var(--display);text-transform:uppercase;color:var(--cemento);padding-block:clamp(1.5rem,4vw,3rem);max-width:13ch;text-wrap:balance}
+
+/* Socios */
+.socios{background:var(--asfalto);padding-block:clamp(4.5rem,9vw,8rem)}
+.socios h2{font-size:clamp(2.8rem,7vw,6.2rem);font-weight:900;max-width:13ch}
+.socios-rejilla{display:grid;gap:3rem;margin-top:3rem;align-items:start}
+@media (min-width:900px){.socios-rejilla{grid-template-columns:1.15fr 1fr}}
+.ventajas{list-style:none;margin:0;padding:0;border-top:1px solid var(--raya)}
+.ventajas li{padding:1.3rem 0;border-bottom:1px solid var(--raya);display:grid;gap:.35rem}
+.ventajas h3{font-size:clamp(1.9rem,3.6vw,3rem);color:var(--flap)}
+.ventajas p{color:var(--suave)}
+
+/* Formularios */
+.formulario{display:grid;gap:1rem;background:var(--noche);border:1px solid var(--raya);border-radius:6px;padding:clamp(1.4rem,3vw,2.2rem)}
+.formulario h3{font-size:2rem}
+.campo{display:grid;gap:.35rem}
+.campo label{font-weight:600;font-size:.95rem}
+.campo .opc{font-weight:400;color:rgba(236,234,228,.6)}
+.campo input,.campo textarea{font:400 1rem var(--texto);color:var(--cemento);background:var(--asfalto);border:1.5px solid #3a4262;border-radius:3px;padding:.8rem .9rem;min-height:48px;width:100%}
+.campo textarea{min-height:110px;resize:vertical}
+.campo input:focus,.campo textarea:focus{border-color:var(--flap);outline:none;box-shadow:0 0 0 3px rgba(255,194,26,.25)}
+.consent{display:grid;grid-template-columns:auto 1fr;gap:.7rem;align-items:start;font-size:.95rem}
+.consent input{width:22px;height:22px;margin:.15rem 0 0;accent-color:var(--flap)}
+.consent a{font-weight:600}
+.aviso-datos{font-size:.84rem;color:rgba(236,234,228,.66)}
+.trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.estado-envio{font-weight:600;min-height:1.5em}
+.estado-envio.ok{color:var(--verde)}.estado-envio.error{color:var(--rojo)}
+
+/* Lista de espera: bloque de color pleno */
+.lista{background:var(--flap);color:var(--tinta);padding-block:clamp(4.5rem,9vw,8rem)}
+.lista-rejilla{display:grid;gap:2.5rem;align-items:start}
+@media (min-width:900px){.lista-rejilla{grid-template-columns:1.2fr 1fr}}
+.lista h2{font-size:clamp(3rem,8.4vw,7.6rem);font-weight:900;max-width:10ch}
+.lista .intro{font-size:1.15rem;max-width:30rem;margin-top:1.4rem}
+.lista .formulario{background:var(--cemento);border-color:rgba(16,19,31,.2);color:var(--tinta)}
+.lista .campo input{background:#fff;color:var(--tinta);border-color:rgba(16,19,31,.35)}
+.lista .campo input:focus{border-color:var(--tinta);box-shadow:0 0 0 3px rgba(16,19,31,.18)}
+.lista .consent input{accent-color:var(--tinta)}
+.lista .consent a{color:var(--neon-osc)}
+.lista .aviso-datos{color:#4a4d57}
+.lista .estado-envio.ok{color:#0f6b38}.lista .estado-envio.error{color:#a3201a}
+
+/* Preguntas */
+.preguntas{padding-block:clamp(4.5rem,9vw,8rem)}
+.preguntas h2{font-size:clamp(2.6rem,6vw,5rem);font-weight:900;margin-bottom:2rem}
+.preguntas details{border-bottom:1px solid var(--raya);max-width:58rem}
+.preguntas summary{cursor:pointer;list-style:none;padding:1.25rem 2.5rem 1.25rem 0;position:relative;font:800 clamp(1.4rem,2.6vw,1.9rem)/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.preguntas summary::-webkit-details-marker{display:none}
+.preguntas summary::after{content:"+";position:absolute;right:.25rem;top:1.05rem;font:400 2rem/1 var(--texto);color:var(--flap);transition:transform .35s var(--salida)}
+.preguntas details[open] summary::after{transform:rotate(45deg)}
+.preguntas details p{padding:0 0 1.4rem;color:var(--suave);max-width:46rem}
+
+/* Pie */
+.pie{border-top:2px dashed rgba(255,194,26,.35);padding-block:3rem 2.5rem}
+.pie-rejilla{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.5rem 2rem;align-items:end}
+.pie .marca{font-size:3rem}
+.pie p{color:var(--suave);font-size:.95rem}
+.pie nav ul{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;list-style:none;margin:0;padding:0}
+.pie nav a{font-size:.95rem}
+
+/* Capa 1: movimiento nativo ligado al scroll (sin JS) */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    .r-mascara{animation:mascara linear both;animation-timeline:view();animation-range:entry 5% entry 75%}
+    .boleto li{animation:corte linear both;animation-timeline:view();animation-range:entry 10% entry 80%}
+    .boleto li:nth-child(2){animation-range:entry 25% entry 95%}
+    .boleto li:nth-child(3){animation-range:entry 40% cover 35%}
+    .plano{animation:iris linear both;animation-timeline:view();animation-range:entry 0% cover 40%}
+    .franja::before{animation:semitono linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+    .llegue-linea li{animation:asoma linear both;animation-timeline:view();animation-range:entry 20% entry 90%}
+    .regla{animation:asoma linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+  }
+}
+@keyframes mascara{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes corte{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes iris{from{clip-path:circle(18% at 70% 45%)}to{clip-path:circle(120% at 70% 45%)}}
+@keyframes semitono{from{background-position:0 0}to{background-position:0 -96px}}
+@keyframes asoma{from{opacity:.25}to{opacity:1}}
+@keyframes latido{0%{transform:scale(1);opacity:.45}100%{transform:scale(2.6);opacity:0}}
+@keyframes zumbido{0%,100%{opacity:1}8%{opacity:.55}10%{opacity:1}62%{opacity:1}64%{opacity:.7}66%{opacity:1}}
+@media (prefers-reduced-motion:no-preference){
+  .pin .halo{animation:latido 2.4s var(--salida) infinite}
+  .pin.lleno .halo,.pin.casi .halo{animation-duration:1.3s}
+  .cabecera .marca{animation:zumbido 7s steps(1,end) infinite}
+}
+</style>
+</head>
+<body>
+<a class="salto" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera" id="cabecera">
+  <div class="envoltura">
+    <a class="marca" href="#inicio" aria-label="Parchao, ir al inicio">PARCHAO</a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="#salidas">Salidas</a></li>
+        <li><a href="#mapa">Aforo</a></li>
+        <li><a href="#seguridad">Seguridad</a></li>
+        <li><a href="#socios">Discotecas</a></li>
+      </ul>
+      <a class="boton" href="#lista">Lista de espera</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+  <section class="hero" id="inicio" aria-labelledby="titulo-hero">
+    <div class="hero-medio">
+      <video id="video-hero" data-auto muted loop playsinline preload="auto" poster="assets/hero.jpg" width="1920" height="1080" aria-label="Letrero de neón de Parchao sobre una ciudad en líneas y un tablero de salidas con parches de ejemplo">
+        <source src="assets/hero.mp4" type="video/mp4">
+      </video>
+      <button class="reproducir" type="button" data-video="video-hero">Reproducir video</button>
+    </div>
+    <div class="envoltura hero-rejilla">
+      <h1 id="titulo-hero" class="r-mascara">¿Sin parche para salir?</h1>
+      <div class="hero-lado">
+        <p><strong>Busca un plan, únete a un parche y llega acompañado.</strong> Parchao junta a la gente que quiere salir en Bogotá: planes por zona y música, el chat de grupo de cada parche y un mapa que te dice qué tan llena está cada discoteca antes de que pidas el carro.</p>
+        <div class="acciones">
+          <a class="boton" href="#lista">Quiero estar en la lista</a>
+          <a class="boton linea" href="#socios">Tengo una discoteca o bar</a>
+        </div>
+        <ul class="tira" aria-label="Estado del proyecto">
+          <li>Fase de prueba</li><li>Bogotá</li><li>Solo +18</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="salidas" id="salidas" aria-labelledby="titulo-salidas">
+    <div class="envoltura">
+      <div class="salidas-cabeza">
+        <div>
+          <h2 id="titulo-salidas" class="r-mascara">Salidas de esta noche</h2>
+          <p>Cada fila es un parche que sale a una hora, a una zona y con una música. Te unes, hablas en el chat del grupo y llegan juntos.</p>
+        </div>
+        <div class="filtros" role="group" aria-label="Filtrar por música">
+          <button type="button" aria-pressed="true" data-filtro="todas">Todas</button>
+          <button type="button" aria-pressed="false" data-filtro="salsa">Salsa</button>
+          <button type="button" aria-pressed="false" data-filtro="reggaeton">Reggaetón</button>
+          <button type="button" aria-pressed="false" data-filtro="rock">Rock</button>
+          <button type="button" aria-pressed="false" data-filtro="electronica">Electrónica</button>
+          <button type="button" aria-pressed="false" data-filtro="vallenato">Vallenato</button>
+        </div>
+      </div>
+
+      <div class="tablero-titulos" aria-hidden="true"><span>Hora</span><span>Parche</span><span>Zona</span><span>Música</span><span>Cupos</span><span>Estado</span><span></span></div>
+      <ol class="tablero" id="tablero">
+        <li class="salida" data-musica="salsa"><span class="hora flap">22:30</span><span class="parche flap">Salsa sin pareja fija</span><span class="zona flap">Chapinero</span><span class="musica flap">Salsa</span><span class="cupos flap">3/6</span><span class="estado estado-abordando flap">Abordando</span><a class="boton" href="#lista">Unirme</a></li>
+        <li class="salida" data-musica="reggaeton"><span class="hora flap">23:00</span><span class="parche flap">Primer viernes en Bogotá</span><span class="zona flap">Zona T</span><span class="musica flap">Reggaetón</span><span class="cupos flap">5/8</span><span class="estado estado-ultimos flap">Últimos cupos</span><a class="boton" href="#lista">Unirme</a></li>
+        <li class="salida" data-musica="rock"><span class="hora flap">23:30</span><span class="parche flap">Rock y cerveza</span><span class="zona flap">Galerías</span><span class="musica flap">Rock</span><span class="cupos flap">2/5</span><span class="estado estado-abordando flap">Abordando</span><a class="boton" href="#lista">Unirme</a></li>
+        <li class="salida" data-musica="electronica"><span class="hora flap">00:00</span><span class="parche flap">Electrónica hasta tarde</span><span class="zona flap">Chapinero</span><span class="musica flap">Techno</span><span class="cupos flap">6/6</span><span class="estado estado-lleno flap">Lleno</span><a class="boton" href="#lista" aria-disabled="true" tabindex="-1">Lleno</a></li>
+        <li class="salida" data-musica="vallenato"><span class="hora flap">21:00</span><span class="parche flap">Vallenato en Usaquén</span><span class="zona flap">Usaquén</span><span class="musica flap">Vallenato</span><span class="cupos flap">1/6</span><span class="estado estado-abordando flap">Abordando</span><a class="boton" href="#lista">Unirme</a></li>
+        <li class="salida" data-musica="salsa"><span class="hora flap">22:00</span><span class="parche flap">Son en La Candelaria</span><span class="zona flap">Candelaria</span><span class="musica flap">Salsa</span><span class="cupos flap">4/7</span><span class="estado estado-abordando flap">Abordando</span><a class="boton" href="#lista">Unirme</a></li>
+      </ol>
+      <p class="nota"><span class="etiqueta-ejemplo">Ejemplo</span> Son parches de ejemplo para mostrar cómo va a funcionar. Todavía no son grupos reales.</p>
+    </div>
+  </section>
+
+  <section class="pasos claro" id="como" aria-labelledby="titulo-pasos">
+    <div class="envoltura">
+      <h2 id="titulo-pasos" class="r-mascara">Así se arma la salida</h2>
+      <ol class="boleto">
+        <li><span class="n" aria-hidden="true">1</span><h3>Busca el plan</h3><p>Filtra por zona, música, día y cuánto quieres gastar. Ves cuántos cupos le quedan a cada parche.</p></li>
+        <li><span class="n" aria-hidden="true">2</span><h3>Únete al parche</h3><p>Cada parche tiene su chat de grupo. Antes de salir ya sabes quiénes van y cuadran la hora.</p></li>
+        <li><span class="n" aria-hidden="true">3</span><h3>Llegan juntos</h3><p>Se encuentran en el lugar a la hora acordada y entran en grupo. Nadie llega solo a la puerta.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="mapa" id="mapa" aria-labelledby="titulo-mapa">
+    <div class="envoltura">
+      <div class="mapa-cabeza">
+        <h2 id="titulo-mapa" class="r-mascara">¿Qué tan lleno está?</h2>
+        <p>Antes de salir, mira el semáforo. Las discotecas socias van a reportar desde la puerta cuánta gente hay, y los parches que ya llegaron también avisan. <span class="etiqueta-ejemplo">Simulación</span></p>
+      </div>
+      <div class="mapa-rejilla">
+        <div class="plano">
+          <svg viewBox="0 0 400 560" role="img" aria-labelledby="mapa-t mapa-d">
+            <title id="mapa-t">Mapa esquemático de Bogotá con lugares de ejemplo</title>
+            <desc id="mapa-d">Zonas de rumba de Bogotá de norte a sur: Usaquén, Parque 93, Zona T, Zona G, Chapinero, Galerías y La Candelaria, con los cerros orientales al este. Los lugares y el aforo son una simulación.</desc>
+            <defs>
+              <pattern id="reticula" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#FFC21A" stroke-opacity=".07"/></pattern>
+            </defs>
+            <rect width="400" height="560" fill="url(#reticula)"/>
+            <g fill="none" stroke="#FF4FA3" stroke-linejoin="round">
+              <path stroke-opacity=".4" d="M352 0 L338 42 L356 84 L336 130 L352 178 L332 226 L348 274 L328 322 L344 372 L324 420 L338 468 L320 516 L328 560"/>
+              <path stroke-opacity=".24" d="M372 0 L358 46 L376 88 L356 134 L372 182 L352 230 L368 278 L348 326 L364 376 L344 424 L358 472 L340 520 L348 560"/>
+              <path stroke-opacity=".12" d="M392 0 L378 50 L396 92 L376 138 L392 186 L372 234 L388 282 L368 330 L384 380 L364 428 L378 476 L360 524 L368 560"/>
+            </g>
+            <g fill="none" stroke="#ECEAE4" stroke-opacity=".26" stroke-width="2.2" stroke-linecap="round">
+              <path d="M312 0 C308 120 304 240 298 360 S292 500 300 560"/>
+              <path d="M205 0 L214 196 L262 238"/>
+              <path d="M262 238 C268 330 274 430 282 560"/>
+              <path d="M240 238 C236 330 226 430 196 560"/>
+              <path d="M0 238 L306 236"/>
+              <path d="M0 404 C120 400 220 404 300 410"/>
+              <path d="M72 0 L84 560"/>
+            </g>
+            <text x="316" y="24">Cra. 7</text>
+            <text x="150" y="24">Autopista Norte</text>
+            <text x="8" y="230">Calle 80</text>
+            <text x="8" y="396">Calle 26</text>
+            <text x="90" y="548">Av. Boyacá</text>
+            <text x="178" y="520">NQS</text>
+            <text x="286" y="548">Caracas</text>
+            <text x="383" y="300" transform="rotate(-90 383 300)">Cerros orientales</text>
+
+            <text class="zona-t" x="250" y="82">Usaquén</text>
+            <text class="zona-t" x="198" y="166">Parque 93</text>
+            <text class="zona-t" x="210" y="214">Zona T</text>
+            <text class="zona-t" x="322" y="262">Zona G</text>
+            <text class="zona-t" x="186" y="300">Chapinero</text>
+            <text class="zona-t" x="150" y="350">Galerías</text>
+            <text class="zona-t" x="300" y="500">Candelaria</text>
+
+            <g class="pin" data-id="1" transform="translate(318 94)"><circle class="halo" r="8"/><circle class="punto" r="7"/></g>
+            <g class="pin" data-id="2" transform="translate(276 170)"><circle class="halo" r="8"/><circle class="punto" r="7"/></g>
+            <g class="pin" data-id="3" transform="translate(282 222)"><circle class="halo" r="8"/><circle class="punto" r="7"/></g>
+            <g class="pin" data-id="4" transform="translate(316 272)"><circle class="halo" r="8"/><circle class="punto" r="7"/></g>
+            <g class="pin" data-id="5" transform="translate(278 300)"><circle class="halo" r="8"/><circle class="punto" r="7"/></g>
+            <g class="pin" data-id="6" transform="translate(286 322)"><circle class="halo" r="8"/><circle class="punto" r="7"/></g>
+            <g class="pin" data-id="7" transform="translate(236 336)"><circle class="halo" r="8"/><circle class="punto" r="7"/></g>
+            <g class="pin" data-id="8" transform="translate(306 474)"><circle class="halo" r="8"/><circle class="punto" r="7"/></g>
+          </svg>
+        </div>
+        <div>
+          <ol class="lugares" id="lugares">
+            <li class="lugar" data-id="1" data-v="38"><h3>Mirador Usaquén <small>(ejemplo)</small></h3><p class="donde">Usaquén · Vallenato</p><p class="lectura">38%<span>Tranquilo</span></p><div class="barra" aria-hidden="true"><i></i></div></li>
+            <li class="lugar" data-id="2" data-v="64"><h3>Bodega 93 <small>(ejemplo)</small></h3><p class="donde">Parque 93 · Pop y karaoke</p><p class="lectura">64%<span>Animado</span></p><div class="barra" aria-hidden="true"><i></i></div></li>
+            <li class="lugar" data-id="3" data-v="91"><h3>La Trastienda <small>(ejemplo)</small></h3><p class="donde">Zona T · Reggaetón</p><p class="lectura">91%<span>Casi lleno</span></p><div class="barra" aria-hidden="true"><i></i></div></li>
+            <li class="lugar" data-id="4" data-v="31"><h3>Terraza G <small>(ejemplo)</small></h3><p class="donde">Zona G · Crossover</p><p class="lectura">31%<span>Tranquilo</span></p><div class="barra" aria-hidden="true"><i></i></div></li>
+            <li class="lugar" data-id="5" data-v="98"><h3>Club Subsuelo <small>(ejemplo)</small></h3><p class="donde">Chapinero · Electrónica</p><p class="lectura">98%<span>Lleno</span></p><div class="barra" aria-hidden="true"><i></i></div></li>
+            <li class="lugar" data-id="6" data-v="72"><h3>Salsoteca La 60 <small>(ejemplo)</small></h3><p class="donde">Chapinero · Salsa</p><p class="lectura">72%<span>Animado</span></p><div class="barra" aria-hidden="true"><i></i></div></li>
+            <li class="lugar" data-id="7" data-v="45"><h3>Garaje Galerías <small>(ejemplo)</small></h3><p class="donde">Galerías · Rock</p><p class="lectura">45%<span>Tranquilo</span></p><div class="barra" aria-hidden="true"><i></i></div></li>
+            <li class="lugar" data-id="8" data-v="56"><h3>Patio Candelaria <small>(ejemplo)</small></h3><p class="donde">La Candelaria · Son y salsa</p><p class="lectura">56%<span>Animado</span></p><div class="barra" aria-hidden="true"><i></i></div></li>
+          </ol>
+          <ul class="leyenda" aria-label="Leyenda del semáforo">
+            <li style="--c:var(--verde)">Tranquilo (menos de 50%)</li>
+            <li style="--c:var(--flap)">Animado (50 a 79%)</li>
+            <li style="--c:var(--rojo)">Casi lleno o lleno (80% o más)</li>
+          </ul>
+          <p class="nota">Lugares con nombres inventados y aforo simulado. Mapa esquemático, no a escala.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seguridad claro" id="seguridad" aria-labelledby="titulo-seguridad">
+    <div class="envoltura">
+      <div class="seguridad-cabeza">
+        <h2 id="titulo-seguridad" class="r-mascara">Salir con gente nueva, pero no a ciegas</h2>
+        <div>
+          <p>La seguridad es lo primero que se está construyendo. Estas son las reglas de la puerta de Parchao:</p>
+          <p class="aviso-plan">La app todavía no está abierta: así es como va a funcionar.</p>
+        </div>
+      </div>
+      <ul class="reglas">
+        <li class="regla"><h3>Solo mayores de 18, verificados</h3><p>Para entrar a un parche validas tu identidad con tu documento. Nada de perfiles falsos.</p></li>
+        <li class="regla"><h3>Todo pasa en el chat del grupo</h3><p>Al principio no hay mensajes privados entre desconocidos. Lo que se habla queda a la vista del parche.</p></li>
+        <li class="regla"><h3>El primer encuentro, en el lugar</h3><p>Los parches se ven en la discoteca o el bar del plan, que es un sitio público. Nunca en casas ni en carros particulares.</p></li>
+        <li class="regla"><h3>Un contacto de confianza</h3><p>Le compartes a alguien de afuera a dónde vas, con quién y a qué hora. Al final de la noche marcas «Llegué bien».</p></li>
+        <li class="regla"><h3>Reportar y bloquear con un toque</h3><p>Quien acose, venda algo o se pase de la raya sale del parche y de la app.</p></li>
+        <li class="regla"><h3>Parches solo de mujeres</h3><p>Si lo prefieres, te unes a parches donde solo entran mujeres.</p></li>
+      </ul>
+
+      <div class="ciudad">
+        <figure class="llegue">
+          <p class="llegue-app"><span class="marca">PARCHAO</span> <span class="etiqueta-ejemplo">Ejemplo</span></p>
+          <p class="llegue-parche">Salsa sin pareja fija · Chapinero</p>
+          <ol class="llegue-linea">
+            <li><b>22:30</b>Llegaste al punto de encuentro</li>
+            <li><b>22:41</b>Entró todo el parche</li>
+            <li class="hecho"><b>02:14</b>Llegué bien a casa</li>
+          </ol>
+          <figcaption>Compartido con tu contacto de confianza: <b>Mamá</b></figcaption>
+        </figure>
+        <div class="consejos">
+          <h3>Para cualquier noche</h3>
+          <ul>
+            <li>No recibas bebidas, dulces ni cigarrillos de desconocidos, y no dejes tu trago solo.</li>
+            <li>Pide el transporte desde una app o una línea oficial y comparte el viaje con alguien.</li>
+            <li>Si algo no te cuadra, avísale al parche y al personal del lugar.</li>
+          </ul>
+          <div class="lineas">
+            <a href="tel:123"><b>123</b><span>Emergencias en Bogotá</span></a>
+            <a href="tel:155"><b>155</b><span>Orientación a mujeres víctimas de violencia</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="aforo" id="aforo" aria-labelledby="titulo-aforo">
+    <div class="envoltura aforo-rejilla">
+      <div>
+        <h2 id="titulo-aforo" class="r-mascara">¿Llegar y no poder ni entrar?</h2>
+        <p class="intro">Pasa en las noches grandes, como Halloween: medio Bogotá sale a la vez y las discotecas se revientan. Parchao quiere repartir mejor esa noche.</p>
+        <ul class="puntos">
+          <li><h3>Semáforo de aforo en vivo</h3><p>Las discotecas socias reportan desde la puerta cuánta gente hay. Tú decides antes de salir.</p></li>
+          <li><h3>Otra opción cerca</h3><p>Si tu sitio está lleno, la app te muestra otro con la misma música a pocas cuadras.</p></li>
+          <li><h3>Cover anticipado con cupos <span class="pronto">Próximamente</span></h3><p>Pagas el cover por la app y tu parche tiene la entrada segura. La discoteca sabe cuánta gente llega y no vende más de lo que cabe.</p></li>
+          <li><h3>Hora de llegada por parche</h3><p>Cada parche escoge su hora y la entrada se reparte en la noche, sin una sola fila gigante.</p></li>
+        </ul>
+      </div>
+      <div class="cover">
+        <video id="video-cover" data-auto muted loop playsinline preload="none" poster="assets/cover.jpg" width="1080" height="1080" aria-label="Manilla holográfica de cover anticipado de Parchao con el sello Próximamente">
+          <source src="assets/cover.mp4" type="video/mp4">
+        </video>
+        <button class="reproducir" type="button" data-video="video-cover">Reproducir video</button>
+      </div>
+    </div>
+    <div class="franja">
+      <div class="envoltura"><p>Parche que llega junto, entra junto.</p></div>
+    </div>
+  </section>
+
+  <section class="socios" id="socios" aria-labelledby="titulo-socios">
+    <div class="envoltura">
+      <h2 id="titulo-socios" class="r-mascara">¿Tienes una discoteca o un bar?</h2>
+      <div class="socios-rejilla">
+        <ul class="ventajas">
+          <li><h3>Gente en las noches flojas</h3><p>Los parches buscan plan también un jueves. Tu local aparece en el mapa cuando tiene espacio.</p></li>
+          <li><h3>Aforo bajo control</h3><p>Sabes cuántos parches vienen en camino y a qué hora, y reportas desde la puerta si ya estás lleno.</p></li>
+          <li><h3>Cover antes de abrir</h3><p>Cuando esté activo, cobras el cover por la app antes de que llegue la gente.</p></li>
+          <li><h3>Grupos que llegan juntos</h3><p>Entran parches ya armados, con hora de llegada, en vez de una fila desordenada.</p></li>
+        </ul>
+        <form class="formulario" id="form-socios" data-consent data-ajax="https://formsubmit.co/ajax/sperezortega48@gmail.com" action="https://formsubmit.co/sperezortega48@gmail.com" method="POST" data-ok="¡Recibido! Te escribimos para hablar de tu local.">
+          <h3>Quiero ser socio</h3>
+          <input type="hidden" name="_subject" value="Parchao · Nuevo socio interesado">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="formulario" value="socios">
+          <input type="hidden" name="consentimiento_fecha"><input type="hidden" name="consentimiento_texto"><input type="hidden" name="consentimiento_version"><input type="hidden" name="consentimiento_metodo">
+          <div class="trampa" aria-hidden="true"><label>No llenar este campo<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+          <div class="campo"><label for="s-local">Nombre del local</label><input id="s-local" name="local" required maxlength="80" autocomplete="organization"></div>
+          <div class="campo"><label for="s-nombre">Tu nombre</label><input id="s-nombre" name="nombre" required maxlength="80" autocomplete="name"></div>
+          <div class="campo"><label for="s-contacto">WhatsApp o email</label><input id="s-contacto" name="contacto" required maxlength="120" autocomplete="email" pattern="([^@\s]+@[^@\s]+\.[^@\s]+)|(\+?[0-9 ]{7,16})" title="Escribe un email o un número de WhatsApp"></div>
+          <div class="campo"><label for="s-zona">Zona o dirección del local <span class="opc">(opcional)</span></label><input id="s-zona" name="zona" maxlength="120" autocomplete="street-address"></div>
+          <div class="campo"><label for="s-mensaje">Mensaje <span class="opc">(opcional)</span></label><textarea id="s-mensaje" name="mensaje" maxlength="1500"></textarea></div>
+          <div class="consent">
+            <input type="checkbox" id="ok-legal-socios" name="acepta_legal" value="si" required>
+            <label for="ok-legal-socios">He leído y acepto los <a href="terminos.html" target="_blank" rel="noopener noreferrer">Términos y condiciones</a> y autorizo el tratamiento de mis datos según la <a href="privacidad.html" target="_blank" rel="noopener noreferrer">Política de privacidad</a>.</label>
+          </div>
+          <p class="aviso-datos">Responsable: Santiago Pérez (Bogotá). Usamos tus datos solo para hablar contigo de la alianza. Puedes conocer, actualizar, rectificar o suprimir tus datos escribiendo a sperezortega48@gmail.com.</p>
+          <button class="boton" type="submit">Quiero ser socio</button>
+          <p class="estado-envio" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="lista" id="lista" aria-labelledby="titulo-lista">
+    <div class="envoltura lista-rejilla">
+      <div>
+        <h2 id="titulo-lista" class="r-mascara">Entra a la lista</h2>
+        <p class="intro">Te avisamos primero cuando abra Parchao en Bogotá. Y si quieres, te preguntamos qué parche te gustaría encontrar.</p>
+      </div>
+      <form class="formulario" id="form-lista" data-consent data-ajax="https://formsubmit.co/ajax/sperezortega48@gmail.com" action="https://formsubmit.co/sperezortega48@gmail.com" method="POST" data-ok="¡Listo, estás en la lista! Te avisamos cuando abra.">
+        <input type="hidden" name="_subject" value="Parchao · Nueva persona en la lista de espera">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="formulario" value="lista-espera">
+        <input type="hidden" name="consentimiento_fecha"><input type="hidden" name="consentimiento_texto"><input type="hidden" name="consentimiento_version"><input type="hidden" name="consentimiento_metodo">
+        <div class="trampa" aria-hidden="true"><label>No llenar este campo<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+        <div class="campo"><label for="l-nombre">Tu nombre</label><input id="l-nombre" name="nombre" required maxlength="80" autocomplete="given-name"></div>
+        <div class="campo"><label for="l-contacto">WhatsApp o email</label><input id="l-contacto" name="contacto" required maxlength="120" autocomplete="email" pattern="([^@\s]+@[^@\s]+\.[^@\s]+)|(\+?[0-9 ]{7,16})" title="Escribe un email o un número de WhatsApp"></div>
+        <div class="consent">
+          <input type="checkbox" id="ok-edad-lista" name="mayor_de_18" value="si" required>
+          <label for="ok-edad-lista">Soy mayor de 18 años.</label>
+        </div>
+        <div class="consent">
+          <input type="checkbox" id="ok-legal-lista" name="acepta_legal" value="si" required>
+          <label for="ok-legal-lista">He leído y acepto los <a href="terminos.html" target="_blank" rel="noopener noreferrer">Términos y condiciones</a> y autorizo el tratamiento de mis datos según la <a href="privacidad.html" target="_blank" rel="noopener noreferrer">Política de privacidad</a>.</label>
+        </div>
+        <p class="aviso-datos">Responsable: Santiago Pérez (Bogotá). Usamos tus datos solo para avisarte cuando abra la app y preguntarte tu opinión. Puedes conocer, actualizar, rectificar o suprimir tus datos escribiendo a sperezortega48@gmail.com.</p>
+        <button class="boton oscuro" type="submit">Apúntame</button>
+        <p class="estado-envio" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="preguntas" id="preguntas" aria-labelledby="titulo-preguntas">
+    <div class="envoltura">
+      <h2 id="titulo-preguntas" class="r-mascara">Preguntas</h2>
+      <details><summary>¿Parchao ya funciona?</summary><p>Todavía no. Estamos probando la idea en Bogotá. Si te apuntas a la lista, eres de los primeros en saber cuándo abre.</p></details>
+      <details><summary>¿Es una app de citas?</summary><p>No. Los parches son grupos para salir. No hay perfiles para ligar y, al principio, tampoco mensajes privados: todo pasa en el chat del grupo.</p></details>
+      <details><summary>¿Los parches y discotecas de esta página son reales?</summary><p>No. Son ejemplos con nombres inventados y un aforo simulado, para mostrar cómo va a funcionar.</p></details>
+      <details><summary>¿Puedo pagar el cover aquí?</summary><p>Todavía no. El cover anticipado llegará con las discotecas socias, y antes de cobrar cualquier cosa publicaremos cómo funcionan los pagos y los reembolsos.</p></details>
+      <details><summary>¿Por qué solo mayores de 18?</summary><p>Porque los planes son en discotecas y bares.</p></details>
+      <details><summary>¿Qué hacen con mis datos?</summary><p>Solo los usamos para avisarte cuando abra la app y para hablar contigo si eres una discoteca o un bar. No los vendemos ni te mandamos publicidad. Todo está en la <a href="privacidad.html">Política de privacidad</a>.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="envoltura pie-rejilla">
+    <div>
+      <a class="marca" href="#inicio">PARCHAO</a>
+      <p>Bogotá · Fase de prueba · Solo mayores de 18<br>Escríbenos: <a href="mailto:sperezortega48@gmail.com">sperezortega48@gmail.com</a></p>
+    </div>
+    <nav aria-label="Legal">
+      <ul>
+        <li><a href="terminos.html">Términos y condiciones</a></li>
+        <li><a href="privacidad.html">Política de privacidad</a></li>
+        <li><a href="cookies.html">Política de cookies</a></li>
+      </ul>
+      <p>© 2026 Parchao</p>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var movimiento = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  if (!movimiento) document.documentElement.classList.add('movimiento-reducido');
+
+  /* Cabecera que se esconde al bajar y vuelve al subir */
+  var cab = document.getElementById('cabecera'), ultimo = 0, pedido = false;
+  window.addEventListener('scroll', function () {
+    if (pedido) return; pedido = true;
+    requestAnimationFrame(function () {
+      var y = window.scrollY;
+      cab.classList.toggle('oculta', y > ultimo && y > 240);
+      ultimo = y; pedido = false;
+    });
+  }, { passive: true });
+
+  /* Videos: solo se reproducen en pantalla y con movimiento permitido */
+  document.querySelectorAll('video[data-auto]').forEach(function (v) {
+    v.muted = true;
+    if (!movimiento || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+    }, { threshold: 0.2 }).observe(v);
+  });
+  document.querySelectorAll('.reproducir').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var v = document.getElementById(b.dataset.video);
+      if (v.paused) { v.play(); b.textContent = 'Pausar video'; } else { v.pause(); b.textContent = 'Reproducir video'; }
+    });
+  });
+
+  /* Tablero split-flap: cada letra pasa por otras antes de quedarse */
+  var LETRAS = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789';
+  function prepararCelda(el) {
+    var texto = el.textContent.trim();
+    el.textContent = '';
+    var lector = document.createElement('span'); lector.className = 'vh'; lector.textContent = texto;
+    var vista = document.createElement('span'); vista.setAttribute('aria-hidden', 'true');
+    texto.split(' ').forEach(function (pal, i) {
+      if (i) vista.appendChild(document.createTextNode(' '));
+      var w = document.createElement('span'); w.className = 'palabra';
+      Array.prototype.forEach.call(pal, function (c) {
+        var s = document.createElement('span'); s.className = 'ch'; s.textContent = c; s.dataset.c = c; w.appendChild(s);
+      });
+      vista.appendChild(w);
+    });
+    el.appendChild(lector); el.appendChild(vista);
+  }
+  function voltear(s, pasos, espera) {
+    setTimeout(function paso() {
+      var fin = pasos-- <= 0;
+      s.textContent = fin ? s.dataset.c : LETRAS.charAt(Math.random() * LETRAS.length | 0);
+      if (s.animate) s.animate([{ transform: 'rotateX(-80deg)' }, { transform: 'rotateX(0deg)' }], { duration: 70, easing: 'ease-out' });
+      if (!fin) setTimeout(paso, 60);
+    }, espera);
+  }
+  function voltearFila(fila, retraso) {
+    var i = 0;
+    fila.querySelectorAll('.ch').forEach(function (s) {
+      if (/[A-ZÁÉÍÓÚÑ0-9]/i.test(s.dataset.c)) voltear(s, 3 + (Math.random() * 6 | 0), retraso + i * 22);
+      i++;
+    });
+  }
+  var filas = Array.prototype.slice.call(document.querySelectorAll('.salida'));
+  filas.forEach(function (f) { f.querySelectorAll('.flap').forEach(prepararCelda); });
+  if (movimiento && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        voltearFila(e.target, filas.indexOf(e.target) % 6 * 140);
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.4 });
+    filas.forEach(function (f) { io.observe(f); });
+  }
+  document.querySelectorAll('.filtros button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.dataset.filtro, n = 0;
+      document.querySelectorAll('.filtros button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      filas.forEach(function (fila) {
+        var ve = f === 'todas' || fila.dataset.musica === f;
+        fila.hidden = !ve;
+        if (ve && movimiento) voltearFila(fila, n++ * 120);
+      });
+    });
+  });
+
+  /* Mapa de aforo: simulación que se mueve sola */
+  var lugares = Array.prototype.slice.call(document.querySelectorAll('.lugar'));
+  function estadoDe(v) { return v >= 95 ? ['lleno', 'Lleno'] : v >= 80 ? ['casi', 'Casi lleno'] : v >= 50 ? ['animado', 'Animado'] : ['tranquilo', 'Tranquilo']; }
+  function pintar(li) {
+    var v = +li.dataset.v, e = estadoDe(v), pin = document.querySelector('.pin[data-id="' + li.dataset.id + '"]');
+    ['lleno', 'casi', 'animado', 'tranquilo'].forEach(function (c) { li.classList.remove(c); if (pin) pin.classList.remove(c); });
+    li.classList.add(e[0]); if (pin) pin.classList.add(e[0]);
+    var lect = li.querySelector('.lectura');
+    lect.firstChild.nodeValue = v + '%'; lect.querySelector('span').textContent = e[1];
+    li.querySelector('.barra i').style.setProperty('--v', v / 100);
+  }
+  lugares.forEach(function (li) {
+    pintar(li);
+    var pin = document.querySelector('.pin[data-id="' + li.dataset.id + '"]');
+    function on() { li.classList.add('activo'); if (pin) pin.classList.add('activo'); }
+    function off() { li.classList.remove('activo'); if (pin) pin.classList.remove('activo'); }
+    li.addEventListener('mouseenter', on); li.addEventListener('mouseleave', off);
+    if (pin) { pin.addEventListener('mouseenter', on); pin.addEventListener('mouseleave', off); }
+  });
+  setInterval(function () {
+    if (document.hidden) return;
+    lugares.forEach(function (li) {
+      var v = +li.dataset.v + Math.round(Math.random() * 8 - 4);
+      li.dataset.v = Math.max(15, Math.min(100, v));
+      pintar(li);
+    });
+  }, 5000);
+
+  /* Formularios: consentimiento registrado + antibots + envío sin salir de la página */
+  var LEGAL_VERSION = 'terminos 2026-11-01 · privacidad 2026-11-01';
+  var inicio = Date.now();
+  function sellarConsentimiento(form) {
+    var ok = form.querySelector('[name=acepta_legal]');
+    function set(n, v) { var el = form.querySelector('[name=' + n + ']'); if (el) el.value = v; }
+    var d = new Date();
+    set('consentimiento_fecha', d.toISOString() + ' (local ' + d.toLocaleString('es-CO') + ')');
+    set('consentimiento_texto', form.querySelector('label[for="' + ok.id + '"]').textContent.replace(/\s+/g, ' ').trim());
+    set('consentimiento_version', LEGAL_VERSION);
+    set('consentimiento_metodo', 'Casilla marcada por el titular en el formulario "' + form.id + '" de ' + location.href);
+  }
+  document.querySelectorAll('form[data-consent]').forEach(function (form) {
+    var estado = form.querySelector('.estado-envio');
+    function aviso(t, c) { estado.textContent = t; estado.className = 'estado-envio ' + (c || ''); }
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (form.elements._honey.value || Date.now() - inicio < 3000) { aviso(form.dataset.ok, 'ok'); return; }
+      sellarConsentimiento(form);
+      if (!window.fetch || !window.FormData) { form.submit(); return; }
+      var btn = form.querySelector('button[type=submit]'); btn.disabled = true; aviso('Enviando…');
+      fetch(form.dataset.ajax, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'error'); }); })
+        .then(function () { form.reset(); aviso(form.dataset.ok, 'ok'); })
+        .catch(function () { aviso('No se pudo enviar. Intenta de nuevo o escríbenos a sperezortega48@gmail.com.', 'error'); })
+        .then(function () { btn.disabled = false; });
+    });
+  });
+})();
+</script>
+<!-- Diseño y desarrollo: Santiago Pérez — S&S Generation AI · ssgeneration.lat -->
+</body>
+</html>
