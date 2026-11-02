@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="author" content="Santiago Pérez — S&S Generation AI">
-<meta name="description" content="Política de cookies de Nochao: el sitio no usa cookies ni almacenamiento local.">
+<meta name="description" content="Política de cookies de Nochao: el sitio no usa cookies; solo una sesión anónima estrictamente necesaria en localStorage.">
 <title>Política de cookies · Nochao</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +44,7 @@ footer a{color:var(--amber)}
 <header class="top"><a href="index.html" aria-label="Nochao, volver al inicio">NOCHAO</a></header>
 <main>
 <h1>Política de cookies</h1>
-<p class="ver">Versión 2026-11-01 · Última actualización: 1 de noviembre de 2026</p>
+<p class="ver">Versión 2026-11-02 v2 · Última actualización: 2 de noviembre de 2026</p>
 <nav class="toc" aria-label="Índice"><strong>Contenido</strong><ol>
 <li><a href="#que">Qué son las cookies</a></li>
 <li><a href="#usa">Qué usa este sitio</a></li>
@@ -58,13 +58,14 @@ footer a{color:var(--amber)}
 <p>Son pequeños archivos que un sitio guarda en tu navegador para recordarte o medirte. El almacenamiento local (localStorage) cumple una función parecida.</p>
 
 <h2 id="usa">2. Qué usa este sitio</h2>
-<div class="note"><p><strong>Este sitio no usa cookies, ni localStorage, ni sessionStorage, ni analítica, ni píxeles de publicidad.</strong></p></div>
+<div class="note"><p><strong>Este sitio no usa cookies, ni analítica, ni píxeles de publicidad.</strong> Solo usa un almacenamiento local estrictamente necesario, y únicamente cuando tú actúas.</p></div>
 <div class="tw"><table>
 <thead><tr><th>Clave / nombre</th><th>Proveedor</th><th>Finalidad</th><th>Duración</th><th>Tipo</th></tr></thead>
-<tbody><tr><td colspan="5">Ninguna: no hay cookies ni almacenamiento local.</td></tr></tbody></table></div>
+<tbody><tr><td>sb-&lt;proyecto&gt;-auth-token (localStorage)</td><td>Supabase, Inc. (EE. UU.; servidores en Ohio, Estados Unidos)</td><td>Sesión anónima y su identificador, necesarios para reportar, crear o unirte a un parche y escribir en el chat. Se crea solo cuando haces una de esas acciones.</td><td>Hasta que borres los datos del sitio en tu navegador</td><td>Estrictamente necesario</td></tr></tbody></table></div>
+<p>Al ser estrictamente necesario no requiere tu consentimiento previo. Si solo navegas, no se crea. Puedes eliminarlo cuando quieras (ver sección 5); perderás el acceso a tus parches y chats en ese navegador.</p>
 
 <h2 id="terceros">3. Terceros técnicos</h2>
-<p>Aunque no hay cookies, para mostrar el sitio intervienen estos servicios, que pueden ver tu dirección IP al atender la solicitud:</p>
+<p>Además de Supabase (ver arriba), para mostrar el sitio intervienen estos servicios, que pueden ver tu dirección IP al atender la solicitud:</p>
 <ul>
 <li><strong>GitHub Pages</strong> (GitHub Inc., EE. UU.): aloja el sitio y puede registrar IP.</li>
 <li><strong>Google Fonts</strong> (Google LLC, EE. UU.): entrega las tipografías Big Shoulders y Onest y recibe tu IP.</li>
@@ -73,11 +74,11 @@ footer a{color:var(--amber)}
 <p>Más detalle en la <a href="privacidad.html">Política de privacidad</a>.</p>
 
 <h2 id="banner">4. Por qué no hay banner de cookies</h2>
-<p>No mostramos un banner porque no hay nada que aceptar o rechazar: no usamos cookies ni almacenamiento que te identifique. Si en el futuro (por ejemplo, con la aplicación) agregamos analítica o cookies no técnicas, pediremos tu consentimiento antes de cargarlas y actualizaremos esta política.</p>
+<p>No mostramos un banner porque no hay nada opcional que aceptar o rechazar: no usamos cookies ni analítica, y el único almacenamiento local es estrictamente necesario para que funcione lo que tú pides. Si en el futuro agregamos analítica o cookies no técnicas, pediremos tu consentimiento antes de cargarlas y actualizaremos esta política.</p>
 
 <h2 id="borrar">5. Cómo borrar cookies en tu navegador</h2>
 <ul>
-<li><strong>Chrome:</strong> Configuración &gt; Privacidad y seguridad &gt; Borrar datos de navegación &gt; Cookies y otros datos de sitios.</li>
+<li><strong>Chrome:</strong> Configuración &gt; Privacidad y seguridad &gt; Borrar datos de navegación &gt; Cookies y otros datos de sitios (esto también borra el localStorage).</li>
 <li><strong>Firefox:</strong> Ajustes &gt; Privacidad y seguridad &gt; Cookies y datos del sitio &gt; Borrar datos.</li>
 <li><strong>Safari (Mac):</strong> Ajustes &gt; Privacidad &gt; Gestionar datos de sitios web. <strong>iPhone:</strong> Ajustes &gt; Safari &gt; Borrar historial y datos.</li>
 <li><strong>Edge:</strong> Configuración &gt; Cookies y permisos del sitio &gt; Administrar y eliminar cookies.</li>

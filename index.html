@@ -7,7 +7,7 @@
 <title>Nochao · Planes y parches para salir en Bogotá</title>
 <meta name="description" content="¿Quieres salir y no tienes con quién? Nochao junta a la gente que quiere salir en Bogotá: planes, parches con chat de grupo y un mapa que dice qué tan llena está cada discoteca.">
 <meta name="author" content="Santiago Pérez — S&S Generation AI">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; frame-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co https://*.supabase.co wss://*.supabase.co; form-action 'self' https://formsubmit.co; frame-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#10131F">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2310131F'/%3E%3Ctext x='16' y='24' font-family='Arial Narrow,Arial' font-weight='900' font-size='22' text-anchor='middle' fill='%23FF4FA3'%3EN%3C/text%3E%3C/svg%3E">
@@ -192,15 +192,7 @@ p{margin:0;text-wrap:pretty}
 .pin.apagado,.calor.apagado{opacity:.15}
 .plano-volver{position:absolute;left:.75rem;top:.75rem;min-height:40px;padding:var(--e-2) var(--e-3);font:600 .9rem/1 var(--texto);background:rgba(16,19,31,.88);color:var(--cemento);border:1px solid var(--raya);border-radius:var(--r-control);cursor:pointer}
 .plano-volver[hidden]{display:none}
-.hora-control{display:grid;grid-template-columns:auto 1fr;gap:var(--e-3) var(--e-4);align-items:center;margin-top:var(--e-4);padding:var(--e-4) var(--e-4);background:var(--asfalto);border-radius:var(--r-tarjeta)}
-.hora-control label{display:block;font:600 .85rem/1.2 var(--texto);color:var(--suave)}
-.hora-control output{display:block;font:900 2.4rem/1 var(--display);color:var(--flap);letter-spacing:.04em;font-variant-numeric:tabular-nums}
-.hora-botones{display:flex;flex-wrap:wrap;gap:var(--e-2);justify-content:flex-end}
-@media (max-width:599px){.hora-botones{grid-column:1/-1;justify-content:stretch}.hora-botones .boton{flex:1 1 auto}}
-.hora-control input{grid-column:1/-1;width:100%;min-height:44px;accent-color:var(--flap)}
-.marcas{grid-column:1/-1;display:flex;justify-content:space-between;margin-top:-0.5rem;font-size:.8rem;color:var(--suave);font-variant-numeric:tabular-nums}
 .chico{min-height:44px;padding:var(--e-2) var(--e-4);font-size:.92rem}
-.boton.linea.espacio[aria-pressed="true"]{background:var(--verde);border-color:var(--verde);color:var(--tinta)}
 .ficha{display:grid;gap:var(--e-4)}
 .ficha-video{aspect-ratio:16/9;border-radius:var(--r-tarjeta);overflow:clip;background:var(--asfalto);border:1px solid var(--raya)}
 .ficha-video video{width:100%;height:100%;object-fit:cover}
@@ -216,8 +208,6 @@ button.fila-b:hover,.fila-b[aria-expanded="true"]{background:var(--tablilla)}
 .fila-b .donde{grid-column:1;color:var(--suave);font-size:.9rem}
 .fila-b .lectura{grid-column:2;grid-row:1/3;text-align:right;font:800 1.55rem/1 var(--display);font-variant-numeric:tabular-nums}
 .fila-b .lectura span{display:block;font:600 .75rem/1.3 var(--texto);text-transform:uppercase;letter-spacing:.06em}
-.barra{display:block;grid-column:1/-1;height:6px;background:var(--raya);border-radius:var(--r-control);overflow:hidden;margin-top:var(--e-2)}
-.barra i{display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(var(--v,.5));background:currentColor;transition:transform .9s var(--salida)}
 .fila-b.tranquilo{border-left-color:var(--verde)}.fila-b.tranquilo .lectura,.fila-b.tranquilo .barra{color:var(--verde)}
 .fila-b.animado{border-left-color:var(--flap)}.fila-b.animado .lectura,.fila-b.animado .barra{color:var(--flap)}
 .fila-b.casi,.fila-b.lleno{border-left-color:var(--rojo)}.fila-b.casi .lectura,.fila-b.casi .barra,.fila-b.lleno .lectura,.fila-b.lleno .barra{color:var(--rojo)}
@@ -277,13 +267,6 @@ button.fila-b:hover,.fila-b[aria-expanded="true"]{background:var(--tablilla)}
 .puntos p{color:var(--suave)}
 .puntos .pronto{font:700 .75rem/1 var(--texto);letter-spacing:.08em;color:var(--tinta);background:var(--flap);padding:var(--e-1) var(--e-2);border-radius:var(--r-tablilla);vertical-align:.3em;margin-left:var(--e-2)}
 .reporte{display:grid;gap:var(--e-4);padding:clamp(var(--e-4),3vw,var(--e-6));background:var(--asfalto);border:1px solid var(--raya);border-radius:var(--r-tarjeta)}
-.reporte-cab{display:flex;flex-wrap:wrap;align-items:center;gap:var(--e-2);font:600 .9rem/1.3 var(--texto);color:var(--suave);padding-bottom:var(--e-4);border-bottom:1px solid var(--raya)}
-.punto-vivo{width:.6rem;height:.6rem;border-radius:50%;background:var(--verde);box-shadow:0 0 0 4px rgba(51,209,122,.2)}
-.reporte-chat{list-style:none;margin:0;padding:0;display:grid;gap:var(--e-2)}
-.msg{justify-self:start;max-width:88%;padding:var(--e-3) var(--e-4);background:var(--tablilla);border-radius:var(--r-fila) var(--r-burbuja) var(--r-burbuja) var(--r-burbuja)}
-.msg b{display:block;font-size:.8rem;color:var(--flap);margin-bottom:var(--e-1)}
-.msg.sistema{background:rgba(255,79,163,.12);border:1px solid rgba(255,79,163,.4)}
-.msg.sistema b{color:var(--neon)}
 .reporte-botones{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--e-2)}
 .reporte-botones button{min-height:52px;padding:var(--e-2);font:700 .95rem/1.15 var(--texto);color:var(--cemento);background:var(--noche);border:2px solid var(--c);border-radius:var(--r-fila);cursor:pointer;transition:background-color .2s,color .2s}
 .reporte-botones button:hover,.reporte-botones button[aria-pressed="true"]{background:var(--c);color:var(--tinta)}
@@ -377,6 +360,50 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
 @keyframes funde{from{opacity:0}}
 @media (prefers-contrast:more){:root{--suave:var(--cemento);--raya:#68719a}.chips button,.filtros button{border-color:var(--cemento)}}
 @media (prefers-reduced-transparency:reduce){.plano-volver,.reproducir{background:var(--noche)}.calor{mix-blend-mode:normal;opacity:.6}}
+
+/* Funciones en vivo */
+[hidden]{display:none!important}
+.campo{min-width:0}
+.campo select{font:400 1rem var(--texto);color:var(--cemento);background:var(--asfalto);border:1.5px solid #3a4262;border-radius:var(--r-control);padding:var(--e-3) var(--e-4);min-height:48px;width:100%}
+.campo select:focus{border-color:var(--flap);outline:none;box-shadow:0 0 0 3px rgba(255,194,26,.25)}
+.campo-doble{display:grid;gap:var(--e-4)}
+@media (min-width:600px){.campo-doble{grid-template-columns:1fr 1fr}}
+.acciones-parche{margin-bottom:var(--e-5)}
+#form-parche,#form-unirse{margin-bottom:var(--e-5);max-width:44rem}
+.aviso-vivo{margin-top:var(--e-5);padding:var(--e-4);color:var(--suave);border:1px dashed var(--raya);border-radius:var(--r-fila)}
+.salida small{display:block;font:500 .72rem/1.2 var(--texto);text-transform:none;letter-spacing:0;color:rgba(236,234,228,.62);margin-top:2px}
+.salida .parche{overflow-wrap:anywhere}
+.salida button.boton{font-family:var(--texto)}
+.salida button.boton:active,.panel button:active,.acciones-parche button:active,#form-parche button:active,#form-sugerencia button:active,.detalle button:active{transform:scale(.97)}
+.panel{display:grid;gap:var(--e-4);margin-top:var(--e-5)}
+.chat{display:grid;gap:var(--e-3);padding:clamp(var(--e-4),3vw,var(--e-6));background:var(--noche);border:1px solid var(--raya);border-radius:var(--r-tarjeta);max-width:48rem}
+.chat-cab h3{font-size:2rem;color:var(--flap);overflow-wrap:anywhere}
+.chat-sub{color:var(--suave);font-size:.95rem}
+.chat-msgs{list-style:none;margin:0;padding:0;display:grid;gap:var(--e-2);align-content:start;max-height:320px;min-height:120px;overflow-y:auto;overscroll-behavior:contain}
+.msg{justify-self:start;max-width:88%;padding:var(--e-3) var(--e-4);background:var(--tablilla);border-radius:var(--r-fila) var(--r-burbuja) var(--r-burbuja) var(--r-burbuja);overflow-wrap:anywhere}
+.msg.mio{justify-self:end;background:rgba(255,79,163,.16);border-radius:var(--r-burbuja) var(--r-fila) var(--r-burbuja) var(--r-burbuja)}
+.msg .meta{display:block;font-size:.8rem;color:var(--flap);margin-bottom:var(--e-1)}
+.msg-rep{margin-top:var(--e-1);min-height:44px;padding:var(--e-1) var(--e-2);background:none;border:0;color:var(--suave);font:500 .82rem var(--texto);text-decoration:underline;cursor:pointer}
+.msg-gracias{display:block;margin-top:var(--e-1);font-size:.82rem;color:var(--verde)}
+.chat-vacio{color:var(--suave);font-size:.95rem}
+.chat-form{display:grid;grid-template-columns:1fr auto;gap:var(--e-2)}
+.chat-form input{font:400 1rem var(--texto);color:var(--cemento);background:var(--asfalto);border:1.5px solid #3a4262;border-radius:var(--r-control);padding:var(--e-3) var(--e-4);min-height:48px;min-width:0;width:100%}
+.chat-form input:focus{border-color:var(--flap);outline:none;box-shadow:0 0 0 3px rgba(255,194,26,.25)}
+.reporte-tit{font-size:clamp(1.7rem,3vw,2.3rem);color:var(--flap);line-height:1}
+.reporte-botones button:disabled{opacity:.55;cursor:wait}
+.reporte .campo label{color:var(--suave)}
+.pin.sinrep .punto{fill:#8a90a8}
+.pin.sinrep .onda{stroke:#8a90a8;animation:none}
+.calor.sinrep{display:none}
+.pin.tranc .toque{fill:rgba(255,79,163,.18);stroke:var(--neon);stroke-width:1.5}
+.fila-b.sinrep{border-left-color:#8a90a8}.fila-b.sinrep .lectura{color:var(--suave)}
+.fila-b .lectura{font-size:1.25rem}
+.fila-b .lectura span{color:var(--neon)}
+.detalle .acciones{margin-top:var(--e-1)}
+.vacio-zona{padding:var(--e-4);color:var(--suave);background:var(--asfalto);border-radius:var(--r-fila)}
+#form-sugerencia{margin-top:var(--e-4)}
+#form-sugerencia h3{font-size:1.7rem}
+.reporte-ctl{display:grid;gap:var(--e-4)}
 </style>
 </head>
 <body>
@@ -432,20 +459,75 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
           <button type="button" aria-pressed="false" data-filtro="reggaeton">Reggaetón</button>
           <button type="button" aria-pressed="false" data-filtro="rock">Rock</button>
           <button type="button" aria-pressed="false" data-filtro="electronica">Electrónica</button>
+          <button type="button" aria-pressed="false" data-filtro="crossover">Crossover</button>
           <button type="button" aria-pressed="false" data-filtro="vallenato">Vallenato</button>
         </div>
       </div>
 
+      <div class="acciones acciones-parche" data-js hidden>
+        <button type="button" class="boton" id="crear-abrir" aria-expanded="false" aria-controls="form-parche">Crear parche</button>
+      </div>
+      <form class="formulario" id="form-parche" hidden novalidate>
+        <h3>Crea tu parche</h3>
+        <div class="campo"><label for="p-titulo">Título del parche <span class="opc">(3 a 60 letras)</span></label><input id="p-titulo" maxlength="60" autocomplete="off" required></div>
+        <div class="campo-doble">
+          <div class="campo"><label for="p-zona">Zona</label><select id="p-zona" required></select></div>
+          <div class="campo"><label for="p-musica">Música</label><select id="p-musica" required></select></div>
+        </div>
+        <div class="campo"><label for="p-lugar">Lugar <span class="opc">(opcional)</span></label><select id="p-lugar"></select></div>
+        <div class="campo-doble">
+          <div class="campo"><label for="p-hora">Fecha y hora</label><input id="p-hora" type="datetime-local" required></div>
+          <div class="campo"><label for="p-cupo">Cupo <span class="opc">(2 a 12 personas)</span></label><input id="p-cupo" type="number" min="2" max="12" step="1" value="6" inputmode="numeric" required></div>
+        </div>
+        <div class="campo"><label for="p-alias">Tu alias en el chat <span class="opc">(2 a 24 letras, no pongas tu nombre completo)</span></label><input id="p-alias" maxlength="24" autocomplete="nickname" required></div>
+        <div class="consent">
+          <input type="checkbox" id="p-edad" required>
+          <label for="p-edad">Soy mayor de 18 y acepto las <a href="#seguridad">reglas</a> y los <a href="terminos.html" target="_blank" rel="noopener noreferrer">Términos y condiciones</a>.</label>
+        </div>
+        <div class="acciones">
+          <button type="submit" class="boton" id="p-enviar">Crear parche</button>
+          <button type="button" class="boton linea" id="p-cancelar">Cancelar</button>
+        </div>
+        <p class="estado-envio" id="p-estado" role="status"></p>
+      </form>
+
       <div class="tablero-titulos" aria-hidden="true"><span>Hora</span><span>Parche</span><span>Zona</span><span>Música</span><span>Cupos</span><span>Estado</span><span></span></div>
-      <ol class="tablero" id="tablero">
-        <li class="salida" data-musica="salsa"><span class="hora flap">22:30</span><span class="parche flap">Salsa sin pareja fija</span><span class="zona flap">Chapinero</span><span class="musica flap">Salsa</span><span class="cupos flap">3/6</span><span class="estado estado-abordando flap">Abordando</span><a class="boton" href="#lista">Unirme</a></li>
-        <li class="salida" data-musica="reggaeton"><span class="hora flap">23:00</span><span class="parche flap">Primer viernes en Bogotá</span><span class="zona flap">Zona T</span><span class="musica flap">Reggaetón</span><span class="cupos flap">5/8</span><span class="estado estado-ultimos flap">Últimos cupos</span><a class="boton" href="#lista">Unirme</a></li>
-        <li class="salida" data-musica="rock"><span class="hora flap">23:30</span><span class="parche flap">Rock y cerveza</span><span class="zona flap">Galerías</span><span class="musica flap">Rock</span><span class="cupos flap">2/5</span><span class="estado estado-abordando flap">Abordando</span><a class="boton" href="#lista">Unirme</a></li>
-        <li class="salida" data-musica="electronica"><span class="hora flap">00:00</span><span class="parche flap">Electrónica hasta tarde</span><span class="zona flap">Chapinero</span><span class="musica flap">Techno</span><span class="cupos flap">6/6</span><span class="estado estado-lleno flap">Lleno</span><a class="boton" href="#lista" aria-disabled="true" tabindex="-1">Lleno</a></li>
-        <li class="salida" data-musica="vallenato"><span class="hora flap">21:00</span><span class="parche flap">Vallenato en Usaquén</span><span class="zona flap">Usaquén</span><span class="musica flap">Vallenato</span><span class="cupos flap">1/6</span><span class="estado estado-abordando flap">Abordando</span><a class="boton" href="#lista">Unirme</a></li>
-        <li class="salida" data-musica="salsa"><span class="hora flap">22:00</span><span class="parche flap">Son en La Candelaria</span><span class="zona flap">Candelaria</span><span class="musica flap">Salsa</span><span class="cupos flap">4/7</span><span class="estado estado-abordando flap">Abordando</span><a class="boton" href="#lista">Unirme</a></li>
-      </ol>
-      <p class="nota"><span class="etiqueta-ejemplo">Ejemplo</span> Son parches de ejemplo para mostrar cómo va a funcionar. Todavía no son grupos reales.</p>
+      <ol class="tablero" id="tablero"></ol>
+      <p class="aviso-vivo" id="tablero-msg" role="status" hidden></p>
+      <noscript><p class="nota">Activa JavaScript para ver los parches en vivo.</p></noscript>
+
+      <div class="panel" id="panel" hidden>
+        <form class="formulario" id="form-unirse" hidden novalidate>
+          <h3 id="u-titulo">Unirte al parche</h3>
+          <div class="campo"><label for="u-alias">Tu alias en el chat <span class="opc">(2 a 24 letras)</span></label><input id="u-alias" maxlength="24" autocomplete="nickname" required></div>
+          <div class="consent">
+            <input type="checkbox" id="u-edad" required>
+            <label for="u-edad">Soy mayor de 18 y acepto las <a href="#seguridad">reglas</a> y los <a href="terminos.html" target="_blank" rel="noopener noreferrer">Términos y condiciones</a>.</label>
+          </div>
+          <div class="acciones">
+            <button type="submit" class="boton" id="u-enviar">Unirme</button>
+            <button type="button" class="boton linea" id="u-cancelar">Cancelar</button>
+          </div>
+          <p class="estado-envio" id="u-estado" role="status"></p>
+        </form>
+        <div class="chat" id="chat" hidden>
+          <div class="chat-cab"><h3 id="chat-titulo"></h3><p class="chat-sub" id="chat-sub"></p></div>
+          <ol class="chat-msgs" id="chat-msgs" role="log" aria-label="Mensajes del parche"></ol>
+          <form class="chat-form" id="form-msg" novalidate>
+            <label class="vh" for="msg-texto">Escribe un mensaje</label>
+            <input id="msg-texto" maxlength="300" autocomplete="off" placeholder="Escribe un mensaje…">
+            <button type="submit" class="boton" id="msg-enviar">Enviar</button>
+          </form>
+          <p class="estado-envio" id="chat-estado" role="status"></p>
+          <p class="aviso-datos">Encuéntrense en la entrada del lugar. No compartas tu dirección, tu número ni datos bancarios. Los mensajes se borran a las 24 horas.</p>
+          <div class="acciones">
+            <button type="button" class="boton linea" id="chat-salir">Salir del parche</button>
+            <button type="button" class="boton linea" id="chat-cerrar">Cerrar chat</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="nota">Los parches los crea la gente. Nochao no verifica a nadie con documento todavía: encuéntrense siempre en la entrada del lugar y lee las <a href="#seguridad">reglas</a>.</p>
     </div>
   </section>
 
@@ -464,7 +546,7 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
     <div class="envoltura">
       <div class="mapa-cabeza">
         <h2 id="titulo-mapa" class="r-mascara">¿Qué tan lleno está?</h2>
-        <p>Antes de salir, mira el semáforo. Funciona como Waze: quien ya llegó reporta en un toque si hay fila, si está lleno o si hay trancón. Toca una zona y mueve la hora para ver cómo se llena la noche. <span class="etiqueta-ejemplo">Simulación</span></p>
+        <p>Antes de salir, mira el semáforo. Funciona como Waze: quien ya llegó reporta en un toque si hay espacio, mucha fila, si está lleno o si hay trancón. Toca una zona para verla de cerca y mira lo que reportó la gente en la última hora y media.</p>
       </div>
       <div class="mapa-rejilla">
         <div>
@@ -482,15 +564,6 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
 <filter id="brillo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><path id="v-7" d="M312 0 C308 120 304 240 298 360 S292 500 300 560" vector-effect="non-scaling-stroke"/><path id="v-auto" d="M205 0 L214 196 L262 238" vector-effect="non-scaling-stroke"/><path id="v-caracas" d="M262 238 C268 330 274 430 282 560" vector-effect="non-scaling-stroke"/><path id="v-nqs" d="M240 238 C236 330 226 430 196 560" vector-effect="non-scaling-stroke"/><path id="v-100" d="M0 140 L318 134" vector-effect="non-scaling-stroke"/><path id="v-80" d="M0 238 L306 236" vector-effect="non-scaling-stroke"/><path id="v-26" d="M0 404 C120 400 220 404 300 410" vector-effect="non-scaling-stroke"/><path id="v-boyaca" d="M72 0 L84 560" vector-effect="non-scaling-stroke"/></defs><rect width="400" height="560" fill="url(#reticula)"/><rect width="336" height="560" fill="url(#manzanas)"/><path fill="url(#cerro)" d="M352 0 L338 42 L356 84 L336 130 L352 178 L332 226 L348 274 L328 322 L344 372 L324 420 L338 468 L320 516 L328 560 H400 V0 Z"/><g fill="none" stroke="#FF4FA3" stroke-linejoin="round"><path stroke-opacity=".4" d="M352 0 L338 42 L356 84 L336 130 L352 178 L332 226 L348 274 L328 322 L344 372 L324 420 L338 468 L320 516 L328 560" vector-effect="non-scaling-stroke"/><path stroke-opacity=".24" d="M372 0 L358 42 L376 84 L356 130 L372 178 L352 226 L368 274 L348 322 L364 372 L344 420 L358 468 L340 516 L348 560" vector-effect="non-scaling-stroke"/><path stroke-opacity=".12" d="M392 0 L378 42 L396 84 L376 130 L392 178 L372 226 L388 274 L368 322 L384 372 L364 420 L378 468 L360 516 L368 560" vector-effect="non-scaling-stroke"/></g><g><use href="#v-7" class="via-brillo"/><use href="#v-7" class="via-linea"/><use href="#v-auto" class="via-brillo"/><use href="#v-auto" class="via-linea"/><use href="#v-caracas" class="via-brillo"/><use href="#v-caracas" class="via-linea"/><use href="#v-nqs" class="via-brillo"/><use href="#v-nqs" class="via-linea"/><use href="#v-100" class="via-brillo"/><use href="#v-100" class="via-linea"/><use href="#v-80" class="via-brillo"/><use href="#v-80" class="via-linea"/><use href="#v-26" class="via-brillo"/><use href="#v-26" class="via-linea"/><use href="#v-boyaca" class="via-brillo"/><use href="#v-boyaca" class="via-linea"/></g><g class="calles"><text x="316" y="24">Cra. 7</text><text x="150" y="24">Autopista Norte</text><text x="8" y="132">Calle 100</text><text x="8" y="230">Calle 80</text><text x="8" y="396">Calle 26</text><text x="90" y="548">Av. Boyacá</text><text x="178" y="520">NQS</text><text x="286" y="548">Caracas</text><text x="383" y="300" transform="rotate(-90 383 300)">Cerros orientales</text></g><g id="capa-zonas"><g class="zona" data-zona="usaquen" data-nombre="Usaquén" data-seg="1"><ellipse cx="303" cy="88" rx="36" ry="26" vector-effect="non-scaling-stroke"/></g><g class="zona" data-zona="p93" data-nombre="Parque 93" data-seg="2"><ellipse cx="263" cy="164" rx="32" ry="20" vector-effect="non-scaling-stroke"/></g><g class="zona" data-zona="zonat" data-nombre="Zona T" data-seg="3"><ellipse cx="270" cy="217" rx="30" ry="18" vector-effect="non-scaling-stroke"/></g><g class="zona" data-zona="zonag" data-nombre="Zona G" data-seg="4"><ellipse cx="323" cy="262" rx="24" ry="22" vector-effect="non-scaling-stroke"/></g><g class="zona" data-zona="chapinero" data-nombre="Chapinero" data-seg="5"><ellipse cx="282" cy="313" rx="26" ry="24" vector-effect="non-scaling-stroke"/></g><g class="zona" data-zona="galerias" data-nombre="Galerías" data-seg="6"><ellipse cx="244" cy="350" rx="20" ry="18" vector-effect="non-scaling-stroke"/></g><g class="zona" data-zona="candelaria" data-nombre="La Candelaria" data-seg="7"><ellipse cx="297" cy="481" rx="30" ry="22" vector-effect="non-scaling-stroke"/></g></g><g id="capa-calor"></g><g id="capa-et"><g class="et" data-x="264" data-y="92" transform="translate(264 92)"><text text-anchor="end">Usaquén</text></g><g class="et" data-x="228" data-y="168" transform="translate(228 168)"><text text-anchor="end">Parque 93</text></g><g class="et" data-x="237" data-y="221" transform="translate(237 221)"><text text-anchor="end">Zona T</text></g><g class="et" data-x="323" data-y="235" transform="translate(323 235)"><text text-anchor="middle">Zona G</text></g><g class="et" data-x="253" data-y="317" transform="translate(253 317)"><text text-anchor="end">Chapinero</text></g><g class="et" data-x="221" data-y="354" transform="translate(221 354)"><text text-anchor="end">Galerías</text></g><g class="et" data-x="264" data-y="485" transform="translate(264 485)"><text text-anchor="end">La Candelaria</text></g></g><g id="capa-pines"></g></svg>
             <button type="button" class="plano-volver" id="plano-volver" hidden>← Toda Bogotá</button>
           </div>
-          <div class="hora-control" data-js hidden>
-            <div><label for="hora">Hora de la noche</label><output id="hora-salida" for="hora">23:00</output></div>
-            <div class="hora-botones">
-              <button type="button" class="boton linea chico" id="ver-noche" aria-pressed="false">Ver cómo se llena la noche</button>
-              <button type="button" class="boton linea chico espacio" id="con-espacio" aria-pressed="false">Solo con espacio</button>
-            </div>
-            <input type="range" id="hora" min="0" max="14" step="1" value="6" aria-valuetext="23:00">
-            <div class="marcas" aria-hidden="true"><span>20:00</span><span>23:30</span><span>03:00</span></div>
-          </div>
         </div>
         <div class="ficha" id="ficha">
           <div class="ficha-video">
@@ -499,24 +572,41 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
             </video>
           </div>
           <div class="ficha-cab">
-            <p class="ficha-kicker" id="ficha-kicker">Toda Bogotá · 23:00</p>
+            <p class="ficha-kicker" id="ficha-kicker">Toda Bogotá · en vivo</p>
             <h3 id="ficha-titulo">Bogotá esta noche</h3>
-            <p class="ficha-resumen" id="ficha-resumen">14 lugares de ejemplo en 7 zonas. Toca una zona para verla de cerca.</p>
+            <p class="ficha-resumen" id="ficha-resumen"></p>
             <p class="vh" id="anuncio" aria-live="polite"></p>
           </div>
-          <ol class="lugares" id="lugares">
-            <li data-id="1" data-zona="usaquen" data-x="316" data-y="92" data-pico="70" data-pk="7" data-musica="Vallenato"><div class="fila-b"><span class="nombre">Mirador Usaquén <small>(ejemplo)</small></span><span class="donde">Usaquén · Vallenato</span></div></li><li data-id="2" data-zona="usaquen" data-x="290" data-y="80" data-pico="45" data-pk="5" data-musica="Pop y crossover"><div class="fila-b"><span class="nombre">Patio 119 <small>(ejemplo)</small></span><span class="donde">Usaquén · Pop y crossover</span></div></li><li data-id="3" data-zona="p93" data-x="274" data-y="168" data-pico="85" data-pk="8" data-musica="Pop y karaoke"><div class="fila-b"><span class="nombre">Bodega 93 <small>(ejemplo)</small></span><span class="donde">Parque 93 · Pop y karaoke</span></div></li><li data-id="4" data-zona="p93" data-x="250" data-y="160" data-pico="70" data-pk="11" data-musica="Electrónica"><div class="fila-b"><span class="nombre">Terraza Nogal <small>(ejemplo)</small></span><span class="donde">Parque 93 · Electrónica</span></div></li><li data-id="5" data-zona="zonat" data-x="282" data-y="220" data-pico="100" data-pk="9" data-musica="Reggaetón"><div class="fila-b"><span class="nombre">La Trastienda <small>(ejemplo)</small></span><span class="donde">Zona T · Reggaetón</span></div></li><li data-id="6" data-zona="zonat" data-x="258" data-y="214" data-pico="92" data-pk="11" data-musica="Electrónica"><div class="fila-b"><span class="nombre">Cuarto Azul <small>(ejemplo)</small></span><span class="donde">Zona T · Electrónica</span></div></li><li data-id="7" data-zona="zonag" data-x="318" data-y="270" data-pico="35" data-pk="7" data-musica="Crossover"><div class="fila-b"><span class="nombre">Terraza G <small>(ejemplo)</small></span><span class="donde">Zona G · Crossover</span></div></li><li data-id="8" data-zona="zonag" data-x="330" data-y="254" data-pico="62" data-pk="8" data-musica="Rock"><div class="fila-b"><span class="nombre">Bar Vinilo <small>(ejemplo)</small></span><span class="donde">Zona G · Rock</span></div></li><li data-id="9" data-zona="chapinero" data-x="276" data-y="304" data-pico="98" data-pk="11" data-musica="Electrónica"><div class="fila-b"><span class="nombre">Club Subsuelo <small>(ejemplo)</small></span><span class="donde">Chapinero · Electrónica</span></div></li><li data-id="10" data-zona="chapinero" data-x="288" data-y="322" data-pico="86" data-pk="6" data-musica="Salsa"><div class="fila-b"><span class="nombre">Salsoteca La 60 <small>(ejemplo)</small></span><span class="donde">Chapinero · Salsa</span></div></li><li data-id="11" data-zona="galerias" data-x="238" data-y="344" data-pico="55" data-pk="8" data-musica="Rock"><div class="fila-b"><span class="nombre">Garaje Galerías <small>(ejemplo)</small></span><span class="donde">Galerías · Rock</span></div></li><li data-id="12" data-zona="galerias" data-x="252" data-y="358" data-pico="82" data-pk="9" data-musica="Reggaetón"><div class="fila-b"><span class="nombre">Rumba 53 <small>(ejemplo)</small></span><span class="donde">Galerías · Reggaetón</span></div></li><li data-id="13" data-zona="candelaria" data-x="306" data-y="476" data-pico="68" data-pk="6" data-musica="Son y salsa"><div class="fila-b"><span class="nombre">Patio Candelaria <small>(ejemplo)</small></span><span class="donde">La Candelaria · Son y salsa</span></div></li><li data-id="14" data-zona="candelaria" data-x="286" data-y="488" data-pico="40" data-pk="7" data-musica="Rock en español"><div class="fila-b"><span class="nombre">Bodega Colonial <small>(ejemplo)</small></span><span class="donde">La Candelaria · Rock en español</span></div></li>
-          </ol>
+          <noscript><p class="nota">Activa JavaScript para ver los reportes en vivo.</p></noscript>
+          <ol class="lugares" id="lugares"></ol>
           <ul class="leyenda" aria-label="Leyenda del semáforo">
-            <li style="--c:var(--verde)">Tranquilo (menos de 50%)</li>
-            <li style="--c:var(--flap)">Animado (50 a 79%)</li>
-            <li style="--c:var(--rojo)">Casi lleno o lleno (80% o más)</li>
+            <li style="--c:var(--verde)">Hay espacio</li>
+            <li style="--c:var(--flap)">Mucha fila</li>
+            <li style="--c:var(--rojo)">Lleno</li>
+            <li style="--c:#8a90a8">Sin reportes</li>
+            <li style="--c:var(--neon)">Trancón cerca (aro rosado)</li>
           </ul>
-          <p class="nota">Lugares con nombres inventados y aforo simulado. Mapa esquemático, no a escala.</p>
+          <p class="nota">Mapa esquemático, no a escala. Cada estado sale de lo que reporta la gente en los últimos 90 minutos.</p>
+          <form class="formulario" id="form-sugerencia" action="https://formsubmit.co/sperezortega48@gmail.com" method="POST" data-ajax="https://formsubmit.co/ajax/sperezortega48@gmail.com">
+            <h3>¿Falta una discoteca? Sugiérela</h3>
+            <input type="hidden" name="_subject" value="Nochao · Sugerencia de lugar">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="formulario" value="sugerencia-lugar">
+            <div class="trampa" aria-hidden="true"><label>No llenar este campo<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+            <div class="campo"><label for="s-nombre">Nombre del lugar</label><input id="s-nombre" name="nombre_lugar" required minlength="2" maxlength="60" autocomplete="off"></div>
+            <div class="campo"><label for="s-zona">Zona</label>
+              <select id="s-zona" name="zona" required>
+                <option value="Usaquén">Usaquén</option><option value="Parque 93">Parque 93</option><option value="Zona T">Zona T</option><option value="Zona G">Zona G</option><option value="Chapinero">Chapinero</option><option value="Galerías">Galerías</option><option value="La Candelaria">La Candelaria</option>
+              </select></div>
+            <div class="campo"><label for="s-dir">Dirección o barrio <span class="opc">(opcional)</span></label><input id="s-dir" name="direccion" maxlength="100" autocomplete="off"></div>
+            <button class="boton" type="submit">Sugerir lugar</button>
+            <p class="estado-envio" id="s-estado" role="status"></p>
+          </form>
         </div>
       </div>
     </div>
   </section>
+
 
   <section class="seguridad claro" id="seguridad" aria-labelledby="titulo-seguridad">
     <div class="envoltura">
@@ -524,16 +614,16 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
         <h2 id="titulo-seguridad" class="r-mascara">Salir con gente nueva, pero no a ciegas</h2>
         <div>
           <p>La seguridad es lo primero que se está construyendo. Estas son las reglas de la puerta de Nochao:</p>
-          <p class="aviso-plan">La app todavía no está abierta: así es como va a funcionar.</p>
+          <p class="aviso-plan">Parte de esto ya funciona en la web (chat de grupo, reportar mensajes, encuentro en el lugar). La verificación con documento y el contacto de confianza llegan con la app.</p>
         </div>
       </div>
       <ul class="reglas">
-        <li class="regla"><h3>Solo mayores de 18, verificados</h3><p>Para entrar a un parche validas tu identidad con tu documento. Nada de perfiles falsos.</p></li>
+        <li class="regla"><h3>Solo mayores de 18</h3><p>Para crear o unirte a un parche confirmas que eres mayor de edad y aceptas las reglas. La verificación con tu documento llega con la app.</p></li>
         <li class="regla"><h3>Todo pasa en el chat del grupo</h3><p>Al principio no hay mensajes privados entre desconocidos. Lo que se habla queda a la vista del parche.</p></li>
         <li class="regla"><h3>El primer encuentro, en el lugar</h3><p>Los parches se ven en la discoteca o el bar del plan, que es un sitio público. Nunca en casas ni en carros particulares.</p></li>
-        <li class="regla"><h3>Un contacto de confianza</h3><p>Le compartes a alguien de afuera a dónde vas, con quién y a qué hora. Al final de la noche marcas «Llegué bien».</p></li>
-        <li class="regla"><h3>Reportar y bloquear con un toque</h3><p>Quien acose, venda algo o se pase de la raya sale del parche y de la app.</p></li>
-        <li class="regla"><h3>Parches solo de mujeres</h3><p>Si lo prefieres, te unes a parches donde solo entran mujeres.</p></li>
+        <li class="regla"><h3>Un contacto de confianza</h3><p>Le compartes a alguien de afuera a dónde vas, con quién y a qué hora. Al final de la noche marcas «Llegué bien». Llega con la app.</p></li>
+        <li class="regla"><h3>Reportar con un toque</h3><p>Cada mensaje del chat tiene su botón «Reportar». Un mensaje con tres denuncias se oculta. Los enlaces están bloqueados.</p></li>
+        <li class="regla"><h3>Parches solo de mujeres</h3><p>Si lo prefieres, te unes a parches donde solo entran mujeres. Llega con la app.</p></li>
       </ul>
 
       <div class="ciudad">
@@ -571,23 +661,23 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
         <ul class="puntos">
           <li><h3>Como Waze, pero para salir</h3><p>Quien ya está allá reporta en un toque si hay espacio, mucha fila, si está lleno o si hay trancón cerca. Varios reportes seguidos mueven el semáforo para todos.</p></li>
           <li><h3>Opciones cerca, en el momento</h3><p>Si tu sitio está lleno, el mapa te muestra los más cercanos que todavía tienen espacio, a cuántas cuadras y cómo está el tráfico para llegar.</p></li>
-          <li><h3>Mira a qué hora se llena</h3><p>Cada sitio tiene su hora pico. La salsa se llena temprano y la electrónica después de la una: llega antes del pico o escoge otro.</p></li>
+          <li><h3>Mira qué tan reciente es el reporte</h3><p>Cada sitio dice cuántas personas reportaron y hace cuántos minutos fue el último. Un reporte pesa menos a medida que pasa el tiempo.</p></li>
           <li><h3>Hora de llegada por parche</h3><p>Cada parche escoge su hora y la entrada se reparte en la noche, sin una sola fila gigante.</p></li>
         </ul>
       </div>
       <div class="reporte">
-        <p class="reporte-cab"><span class="punto-vivo" aria-hidden="true"></span>Chat del parche · Salsa sin pareja fija <span class="etiqueta-ejemplo">Ejemplo</span></p>
-        <ol class="reporte-chat">
-          <li class="msg"><b>Laura</b>Ya llegamos tres, estamos en la entrada.</li>
-          <li class="msg sistema"><b>Nochao</b><span id="reporte-t">¿Cómo está Salsoteca La 60?</span></li>
-        </ol>
-        <div class="reporte-botones" role="group" aria-labelledby="reporte-t">
-          <button type="button" aria-pressed="false" data-r="Hay espacio" style="--c:var(--verde)">Hay espacio</button>
-          <button type="button" aria-pressed="false" data-r="Mucha fila" style="--c:var(--flap)">Mucha fila</button>
-          <button type="button" aria-pressed="false" data-r="Lleno" style="--c:var(--rojo)">Lleno</button>
-          <button type="button" aria-pressed="false" data-r="Trancón cerca" style="--c:var(--neon)">Trancón cerca</button>
+        <h3 class="reporte-tit" id="reporte-t">¿Estás en una discoteca? Cuéntale a la gente cómo está</h3>
+        <div class="reporte-ctl" data-js hidden>
+          <div class="campo"><label for="rep-lugar">¿En qué lugar estás?</label><select id="rep-lugar"><option value="">Escoge el lugar</option></select></div>
+          <div class="reporte-botones" role="group" aria-labelledby="reporte-t">
+            <button type="button" data-r="espacio" style="--c:var(--verde)">Hay espacio</button>
+            <button type="button" data-r="fila" style="--c:var(--flap)">Mucha fila</button>
+            <button type="button" data-r="lleno" style="--c:var(--rojo)">Lleno</button>
+            <button type="button" data-r="trancon" style="--c:var(--neon)">Trancón cerca</button>
+          </div>
         </div>
-        <p class="reporte-estado" id="reporte-estado" role="status">12 reportes en la última media hora. Ahora está <b>animado</b>.</p>
+        <noscript><p class="reporte-estado">Activa JavaScript para ver los reportes en vivo.</p></noscript>
+        <p class="reporte-estado" id="reporte-estado" role="status"></p>
       </div>
     </div>
     <div class="franja">
@@ -598,10 +688,10 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
   <section class="lista" id="lista" aria-labelledby="titulo-lista">
     <div class="envoltura lista-rejilla">
       <div>
-        <h2 id="titulo-lista" class="r-mascara">Entra a la lista</h2>
-        <p class="intro">Te avisamos primero cuando abra Nochao en Bogotá. Y si quieres, te preguntamos qué parche te gustaría encontrar.</p>
+        <h2 id="titulo-lista" class="r-mascara">Avísame cuando salga la app</h2>
+        <p class="intro">La web ya funciona. La app viene después: deja tu contacto y te avisamos primero cuando salga en Bogotá. Y si quieres, te preguntamos qué parche te gustaría encontrar.</p>
       </div>
-      <form class="formulario" id="form-lista" data-consent data-ajax="https://formsubmit.co/ajax/sperezortega48@gmail.com" action="https://formsubmit.co/sperezortega48@gmail.com" method="POST" data-ok="¡Listo, estás en la lista! Te avisamos cuando abra.">
+      <form class="formulario" id="form-lista" data-consent data-ajax="https://formsubmit.co/ajax/sperezortega48@gmail.com" action="https://formsubmit.co/sperezortega48@gmail.com" method="POST" data-ok="¡Listo, estás en la lista! Te avisamos cuando salga la app.">
         <input type="hidden" name="_subject" value="Nochao · Nueva persona en la lista de espera">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="formulario" value="lista-espera">
@@ -617,7 +707,7 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
           <input type="checkbox" id="ok-legal-lista" name="acepta_legal" value="si" required>
           <label for="ok-legal-lista">He leído y acepto los <a href="terminos.html" target="_blank" rel="noopener noreferrer">Términos y condiciones</a> y autorizo el tratamiento de mis datos según la <a href="privacidad.html" target="_blank" rel="noopener noreferrer">Política de privacidad</a>.</label>
         </div>
-        <p class="aviso-datos">Responsable: Santiago Pérez (Bogotá). Usamos tus datos solo para avisarte cuando abra la app y preguntarte tu opinión. Puedes conocer, actualizar, rectificar o suprimir tus datos escribiendo a sperezortega48@gmail.com.</p>
+        <p class="aviso-datos">Responsable: Santiago Pérez (Bogotá). Usamos tus datos solo para avisarte cuando salga la app y preguntarte tu opinión. Puedes conocer, actualizar, rectificar o suprimir tus datos escribiendo a sperezortega48@gmail.com.</p>
         <button class="boton oscuro" type="submit">Apúntame</button>
         <p class="estado-envio" role="status"></p>
       </form>
@@ -627,10 +717,10 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
   <section class="preguntas" id="preguntas" aria-labelledby="titulo-preguntas">
     <div class="envoltura">
       <h2 id="titulo-preguntas" class="r-mascara">Preguntas</h2>
-      <details><summary>¿Nochao ya funciona?</summary><p>Todavía no. Estamos probando la idea en Bogotá. Si te apuntas a la lista, eres de los primeros en saber cuándo abre.</p></details>
+      <details><summary>¿Nochao ya funciona?</summary><p>Sí. Los reportes, el mapa y los parches con chat ya funcionan desde la web. La app viene después: si te apuntas a la lista, eres de los primeros en saber cuándo sale.</p></details>
       <details><summary>¿Es una app de citas?</summary><p>No. Los parches son grupos para salir. No hay perfiles para ligar y, al principio, tampoco mensajes privados: todo pasa en el chat del grupo.</p></details>
-      <details><summary>¿Los parches y discotecas de esta página son reales?</summary><p>No. Son ejemplos con nombres inventados y un aforo simulado, para mostrar cómo va a funcionar.</p></details>
-      <details><summary>¿De dónde sale lo lleno que está cada sitio?</summary><p>De la gente que ya está ahí: cada quien reporta en un toque si hay espacio, mucha fila, si está lleno o si hay trancón cerca, y varios reportes seguidos mueven el semáforo, como en Waze. En esta página es una simulación.</p></details>
+      <details><summary>¿Los parches y los lugares son reales?</summary><p>Sí. Los parches los crea la gente que usa la página y los lugares son discotecas y bares de Bogotá. Si falta alguno, puedes sugerirlo debajo del mapa.</p></details>
+      <details><summary>¿De dónde sale lo lleno que está cada sitio?</summary><p>De lo que reporta la gente que está ahí en los últimos 90 minutos: hay espacio, mucha fila, lleno o trancón cerca. Si nadie ha reportado, el mapa dice «Sin reportes» y no inventa nada. Nochao no tiene vínculo con los lugares.</p></details>
       <details><summary>¿Cuánto cuesta?</summary><p>Nada. Nochao es gratis y por ahora no cobra ni vende entradas.</p></details>
       <details><summary>¿Por qué solo mayores de 18?</summary><p>Porque los planes son en discotecas y bares.</p></details>
       <details><summary>¿Qué hacen con mis datos?</summary><p>Solo los usamos para avisarte cuando abra la app. No los vendemos ni te mandamos publicidad. Todo está en la <a href="privacidad.html">Política de privacidad</a>.</p></details>
@@ -655,9 +745,11 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 (function () {
   'use strict';
+  var NOCHAO_URL = 'https://urezshmebxrmuervurhs.supabase.co', NOCHAO_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyZXpzaG1lYnhybXVlcnZ1cmhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1ODU1ODEsImV4cCI6MjEwOTE2MTU4MX0.CRoQjTcejtq2NPTMYJStaCkY_-wobYkxl49xDchksGg';
   var movimiento = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
   if (!movimiento) document.documentElement.classList.add('movimiento-reducido');
 
@@ -690,7 +782,46 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
     });
   });
 
-  /* Tablero split-flap: cada letra pasa por otras antes de quedarse */
+  /* ===== Datos compartidos ===== */
+  var FALLO = 'No pudimos cargar los datos en vivo. Recarga la página en un momento.';
+  var GENERICO = 'Algo salió mal. Intenta de nuevo en un momento.';
+  var ZONAS = { usaquen: 'Usaquén', p93: 'Parque 93', zonat: 'Zona T', zonag: 'Zona G', chapinero: 'Chapinero', galerias: 'Galerías', candelaria: 'La Candelaria' };
+  var MUSICAS = { salsa: 'Salsa', reggaeton: 'Reggaetón', electronica: 'Electrónica', rock: 'Rock', crossover: 'Crossover', vallenato: 'Vallenato' };
+  var sb = null;
+  try {
+    if (window.supabase && NOCHAO_URL.indexOf('TU-PROYECTO') < 0 && NOCHAO_KEY.indexOf('TU-CLAVE') < 0) sb = window.supabase.createClient(NOCHAO_URL, NOCHAO_KEY);
+  } catch (e) { sb = null; }
+  var LUG = [], LUGPOR = {}, miId = null;
+
+  function nodo(tag, clase, texto, padre) { var e = document.createElement(tag); if (clase) e.className = clase; if (texto != null) e.textContent = texto; if (padre) padre.appendChild(e); return e; }
+  function $(id) { return document.getElementById(id); }
+  function msgError(err) { return err && err.code === 'P0001' && err.message ? err.message : GENERICO; }
+  function sesionActual() {
+    return sb.auth.getSession().then(function (r) { var s = r && r.data && r.data.session; var id = s && s.user ? s.user.id : null; if (id) miId = id; return id; });
+  }
+  function asegurarUsuario() {
+    if (!sb) return Promise.reject(new Error('sin-config'));
+    return sesionActual().then(function (id) {
+      if (id) return id;
+      return sb.auth.signInAnonymously().then(function (r) {
+        if (r.error) throw r.error;
+        miId = r.data.user.id; return miId;
+      });
+    });
+  }
+  var fHora = new Intl.DateTimeFormat('es-CO', { timeZone: 'America/Bogota', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+  var fDia = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Bogota', year: 'numeric', month: '2-digit', day: '2-digit' });
+  var fSem = new Intl.DateTimeFormat('es-CO', { timeZone: 'America/Bogota', weekday: 'long' });
+  function hhmm(d) { return fHora.format(d); }
+  function etiquetaDia(d) {
+    var a = fDia.format(d), hoy = fDia.format(new Date());
+    if (a === hoy) return '';
+    if (a === fDia.format(new Date(Date.now() + 864e5))) return 'mañana';
+    if (a === fDia.format(new Date(Date.now() - 864e5))) return 'ayer';
+    return fSem.format(d);
+  }
+
+  /* ===== Tablero split-flap: cada letra pasa por otras antes de quedarse ===== */
   var LETRAS = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789';
   function prepararCelda(el) {
     var texto = el.textContent.trim();
@@ -722,51 +853,26 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
       i++;
     });
   }
-  var filas = Array.prototype.slice.call(document.querySelectorAll('.salida'));
-  filas.forEach(function (f) { f.querySelectorAll('.flap').forEach(prepararCelda); });
-  if (movimiento && 'IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        voltearFila(e.target, filas.indexOf(e.target) % 6 * 140);
-        io.unobserve(e.target);
-      });
-    }, { threshold: 0.4 });
-    filas.forEach(function (f) { io.observe(f); });
-  }
-  document.querySelectorAll('.filtros button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var f = b.dataset.filtro, n = 0;
-      document.querySelectorAll('.filtros button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      filas.forEach(function (fila) {
-        var ve = f === 'todas' || fila.dataset.musica === f;
-        fila.hidden = !ve;
-        if (ve && movimiento) voltearFila(fila, n++ * 120);
-      });
-    });
-  });
 
-  /* Mapa de aforo: zonas, hora de la noche y reportes simulados */
-  var plano = document.getElementById('plano');
-  if (plano) (function () {
+  /* ===== Mapa de aforo: reportes reales de los últimos 90 minutos ===== */
+  var mapaApi = (function () {
+    var plano = $('plano');
     var NS = 'http://www.w3.org/2000/svg', svg = plano.querySelector('svg');
-    var capaCalor = document.getElementById('capa-calor'), capaPines = document.getElementById('capa-pines');
-    var lista = document.getElementById('lugares'), volver = document.getElementById('plano-volver');
-    var titulo = document.getElementById('ficha-titulo'), kicker = document.getElementById('ficha-kicker');
-    var resumen = document.getElementById('ficha-resumen'), anuncio = document.getElementById('anuncio');
-    var hora = document.getElementById('hora'), horaSalida = document.getElementById('hora-salida');
-    var verNoche = document.getElementById('ver-noche'), conEspacio = document.getElementById('con-espacio');
-    var vz = document.getElementById('video-zonas'), SEG = 2.5;
+    var capaCalor = $('capa-calor'), capaPines = $('capa-pines');
+    var lista = $('lugares'), volver = $('plano-volver');
+    var titulo = $('ficha-titulo'), kicker = $('ficha-kicker');
+    var resumen = $('ficha-resumen'), anuncio = $('anuncio');
+    var vz = $('video-zonas'), SEG = 2.5;
     var chips = Array.prototype.slice.call(document.querySelectorAll('.chips button'));
-    var estado = { zona: null, lugar: null, hora: +hora.value, espacio: false };
-    var CLASES = ['lleno', 'casi', 'animado', 'tranquilo'];
+    var estado = { zona: null, lugar: null };
+    var CLASES = ['lleno', 'animado', 'tranquilo', 'sinrep'];
+    var CLS = { espacio: 'tranquilo', fila: 'animado', lleno: 'lleno', sin: 'sinrep' };
+    var ETQ = { espacio: 'Hay espacio', fila: 'Mucha fila', lleno: 'Lleno', sin: 'Sin reportes' };
+    var lugares = [], porId = {}, reportes = [], vistos = {}, vivo = false, fallo = false;
     document.querySelectorAll('.mapa [data-js]').forEach(function (e) { e.hidden = false; });
 
     function crear(tag, attrs, padre) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; }
-    function nodo(tag, clase, texto, padre) { var e = document.createElement(tag); if (clase) e.className = clase; if (texto != null) e.textContent = texto; if (padre) padre.appendChild(e); return e; }
     function ponerClase(e, c) { CLASES.forEach(function (x) { e.classList.remove(x); }); e.classList.add(c); }
-    function estadoDe(v) { return v >= 95 ? ['lleno', 'Lleno'] : v >= 80 ? ['casi', 'Casi lleno'] : v >= 50 ? ['animado', 'Animado'] : ['tranquilo', 'Tranquilo']; }
-    function horaTexto(i) { var m = (1200 + i * 30) % 1440; return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + m % 60).slice(-2); }
 
     var zonas = {}, orden = [];
     plano.querySelectorAll('.zona').forEach(function (g) {
@@ -776,28 +882,15 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
       g.addEventListener('click', function () { seleccionarZona(id, true); });
     });
     var etiquetas = Array.prototype.slice.call(plano.querySelectorAll('.et')).map(function (g) { return { g: g, x: +g.dataset.x, y: +g.dataset.y }; });
-    var lugares = Array.prototype.slice.call(lista.children).map(function (li) {
-      var d = li.dataset;
-      var l = { id: d.id, zona: d.zona, x: +d.x, y: +d.y, pico: +d.pico, pk: +d.pk, musica: d.musica, nombre: li.querySelector('.nombre').firstChild.nodeValue.trim(), ruido: 0, v: 0 };
-      l.calor = crear('circle', { 'class': 'calor', cx: l.x, cy: l.y, r: 16 }, capaCalor);
-      l.g = crear('g', { 'class': 'pin' }, capaPines);
-      crear('circle', { 'class': 'toque', r: 11 }, l.g);
-      crear('circle', { 'class': 'onda', r: 6 }, l.g);
-      crear('circle', { 'class': 'punto', r: 5.5 }, l.g);
-      var izq = l.x < zonas[l.zona].x;
-      crear('text', { 'class': 'nombre-pin', x: izq ? -9 : 9, y: 3, 'text-anchor': izq ? 'end' : 'start' }, l.g).textContent = l.nombre;
-      l.g.addEventListener('click', function () { abrirLugar(l, true); });
-      zonas[l.zona].lugares.push(l);
-      return l;
-    });
 
     /* Acercar el plano: se anima el viewBox y los pines se compensan para no crecer de más */
     var vb = [0, 0, 400, 560], escala = 1, animVB = 0;
+    function radioCalor(l) { return ((8 + Math.min(16, l.n * 3)) * escala).toFixed(1); }
     function aplicarVB(v) {
       svg.setAttribute('viewBox', v.map(function (n) { return n.toFixed(2); }).join(' '));
       escala = Math.sqrt(v[2] / 400);
       var s = ' scale(' + escala.toFixed(3) + ')';
-      lugares.forEach(function (l) { l.g.setAttribute('transform', 'translate(' + l.x + ' ' + l.y + ')' + s); l.calor.setAttribute('r', ((8 + l.v * 0.2) * escala).toFixed(1)); });
+      lugares.forEach(function (l) { l.g.setAttribute('transform', 'translate(' + l.x + ' ' + l.y + ')' + s); l.calor.setAttribute('r', radioCalor(l)); });
       etiquetas.forEach(function (e) { e.g.setAttribute('transform', 'translate(' + e.x + ' ' + e.y + ')' + s); });
     }
     function irA(dest) {
@@ -829,106 +922,172 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
       (function vigilar() { if (vz.currentTime >= fin) { vz.pause(); return; } vigia = requestAnimationFrame(vigilar); })();
     }
 
-    function valor(l) { var d = (estado.hora - l.pk) / 4.2; return Math.max(5, Math.min(100, Math.round(10 + l.pico * Math.exp(-d * d) + l.ruido))); }
-    function promedio(z) { var t = 0; z.lugares.forEach(function (l) { t += l.v; }); return Math.round(t / z.lugares.length); }
-    function filaEstimada(v) { return v >= 95 ? 'más de 40 min, o ya no dejan entrar' : v >= 80 ? '20 a 30 min' : v >= 50 ? '5 a 10 min' : 'sin fila'; }
+    /* Lugares y reportes */
+    function construirLugares(rows) {
+      capaCalor.textContent = ''; capaPines.textContent = '';
+      lugares = []; porId = {};
+      orden.forEach(function (id) { zonas[id].lugares = []; });
+      rows.forEach(function (r) {
+        var z = zonas[r.zona]; if (!z) return;
+        var l = { id: String(r.id), zona: r.zona, nombre: String(r.nombre), direccion: r.direccion ? String(r.direccion) : '', musica: MUSICAS[r.musica] || String(r.musica || ''), x: +r.x, y: +r.y, st: 'sin', s: {}, n: 0, ultimo: 0, tranc: false };
+        l.calor = crear('circle', { 'class': 'calor sinrep', cx: l.x, cy: l.y, r: 8 }, capaCalor);
+        l.g = crear('g', { 'class': 'pin sinrep' }, capaPines);
+        crear('circle', { 'class': 'toque', r: 11 }, l.g);
+        crear('circle', { 'class': 'onda', r: 6 }, l.g);
+        crear('circle', { 'class': 'punto', r: 5.5 }, l.g);
+        var izq = l.x < z.x;
+        crear('text', { 'class': 'nombre-pin', x: izq ? -9 : 9, y: 3, 'text-anchor': izq ? 'end' : 'start' }, l.g).textContent = l.nombre;
+        l.g.addEventListener('click', function () { abrirLugar(l, true); });
+        z.lugares.push(l); lugares.push(l); porId[l.id] = l;
+      });
+      estado.zona && estado.zona in zonas && (function () {
+        var id = estado.zona;
+        lugares.forEach(function (l) { var en = l.zona === id; l.g.classList.toggle('en-zona', en); l.calor.classList.toggle('en-zona', en); });
+      })();
+      aplicarVB(vb);
+    }
+    function calcular() {
+      var ahora = Date.now(), MAXE = 90 * 60000, MAXT = 45 * 60000;
+      lugares.forEach(function (l) { l.s = { espacio: 0, fila: 0, lleno: 0 }; l.n = 0; l.ultimo = 0; l.tranc = false; });
+      reportes.forEach(function (r) {
+        var l = porId[String(r.lugar_id)]; if (!l) return;
+        var edad = Math.max(0, ahora - r.t); if (edad > MAXE) return;
+        l.n++; if (r.t > l.ultimo) l.ultimo = r.t;
+        if (r.tipo === 'trancon') { if (edad <= MAXT) l.tranc = true; }
+        else if (l.s[r.tipo] != null) l.s[r.tipo] += 1 - edad / MAXE;
+      });
+      lugares.forEach(function (l) {
+        var a = l.s.espacio, b = l.s.fila, c = l.s.lleno;
+        l.st = a + b + c <= 0 ? 'sin' : (c >= b && c >= a) ? 'lleno' : (b >= a ? 'fila' : 'espacio');
+      });
+    }
+    function hace(t) { var m = Math.floor((Date.now() - t) / 60000); return m < 1 ? 'hace menos de 1 min' : 'hace ' + m + ' min'; }
+    function textoReportes(l) { return l.n ? l.n + (l.n === 1 ? ' reporte' : ' reportes') + ' · último ' + hace(l.ultimo) : 'Sin reportes en la última hora y media'; }
+
     function cercanos(l) {
-      return lugares.filter(function (o) { return o !== l && o.v < 70; })
-        .map(function (o) { return { o: o, d: Math.hypot(o.x - l.x, o.y - l.y) }; })
-        .sort(function (a, b) { return a.d - b.d; }).slice(0, 2)
-        .map(function (x) { x.o.d = x.d; return x.o; });
+      var otros = lugares.filter(function (o) { return o !== l; }).map(function (o) { return { o: o, d: Math.hypot(o.x - l.x, o.y - l.y) }; });
+      function pegar(a, b) { return a.d - b.d; }
+      var con = otros.filter(function (x) { return x.o.st === 'espacio'; }).sort(pegar).slice(0, 2);
+      if (con.length) return { lista: con, fallback: false };
+      return { lista: otros.filter(function (x) { return x.o.st === 'sin'; }).sort(pegar).slice(0, 2), fallback: true };
     }
-    function trafico(l) {
-      var h = estado.hora, t = (h >= 3 && h <= 7 ? 2 : h >= 1 && h <= 9 ? 1 : 0) + (/zonat|chapinero|p93/.test(l.zona) ? 1 : 0);
-      return t >= 3 ? 'pesado, hay trancón' : t === 2 ? 'moderado' : 'fluido';
-    }
+
     var filas = [];
-    function fila(nombre, chico, donde) {
+    function fila(nombre, donde) {
       var li = nodo('li'), b = nodo('button', 'fila-b', null, li); b.type = 'button';
-      var n = nodo('span', 'nombre', nombre + ' ', b); if (chico) nodo('small', null, chico, n);
+      nodo('span', 'nombre', nombre, b);
       nodo('span', 'donde', donde, b);
-      var lect = nodo('span', 'lectura', null, b); lect.appendChild(document.createTextNode(''));
-      var est = nodo('span', null, '', lect), barra = nodo('span', 'barra', null, b);
-      barra.setAttribute('aria-hidden', 'true');
-      return { li: li, b: b, lect: lect, est: est, i: nodo('i', null, null, barra) };
+      var lect = nodo('span', 'lectura', null, b);
+      var txt = document.createTextNode(''); lect.appendChild(txt);
+      return { li: li, b: b, txt: txt, tr: nodo('span', null, '', lect) };
     }
-    function pintarFila(f, v) { var e = estadoDe(v); ponerClase(f.b, e[0]); f.lect.firstChild.nodeValue = v + '%'; f.est.textContent = e[1]; f.i.style.setProperty('--v', v / 100); }
     function armarDetalle(f) {
       var det = f.det = nodo('div', 'detalle', null, f.li);
       det.id = 'detalle-' + f.lugar.id; det.hidden = true;
       f.b.setAttribute('aria-expanded', 'false'); f.b.setAttribute('aria-controls', det.id);
-      var p1 = nodo('p', null, 'Fila estimada: ', det); f.dFila = nodo('b', null, '', p1);
-      var p2 = nodo('p', null, 'Tráfico para llegar: ', det); f.dTraf = nodo('b', null, '', p2);
-      var p3 = nodo('p', null, 'Reportes de la gente en la última media hora: ', det); f.dRep = nodo('b', null, '', p3);
+      var p1 = nodo('p', null, 'Ahora: ', det); f.dEst = nodo('b', null, '', p1);
+      f.dRep = nodo('p', null, '', det);
+      var p3 = nodo('p', null, 'Tráfico para llegar: ', det); f.dTraf = nodo('b', null, '', p3);
+      if (f.lugar.direccion) nodo('p', null, 'Dirección: ' + f.lugar.direccion, det);
       f.dAlt = nodo('div', 'cerca', null, det);
-      nodo('p', null, 'Opciones cerca con espacio:', f.dAlt);
+      f.dAltT = nodo('p', null, '', f.dAlt);
       f.dAltB = [0, 1].map(function () {
         var bt = nodo('button', 'alt', '', f.dAlt); bt.type = 'button';
         bt.addEventListener('click', function () { if (bt.lugar) abrirLugar(bt.lugar, false); });
         return bt;
       });
       f.dBien = nodo('p', null, 'Buen momento para llegar.', det);
-      nodo('a', 'boton chico', 'Buscar un parche para aquí', det).href = '#lista';
+      var ac = nodo('div', 'acciones', null, det);
+      var rb = nodo('button', 'boton chico', 'Reportar cómo está', ac); rb.type = 'button';
+      rb.addEventListener('click', function () { reporteApi.preseleccionar(f.lugar.id); });
+      nodo('a', 'boton linea chico', 'Buscar un parche', ac).href = '#salidas';
     }
     function llenarDetalle(f) {
-      var l = f.lugar, alts = l.v >= 70 ? cercanos(l) : [];
-      f.dFila.textContent = filaEstimada(l.v);
-      f.dTraf.textContent = trafico(l);
-      f.dRep.textContent = Math.round(l.v / 6) + 2 + ' (fila, lleno o trancón)';
-      f.dAlt.hidden = !alts.length; f.dBien.hidden = l.v >= 70;
+      var l = f.lugar, alt = l.st === 'espacio' ? { lista: [], fallback: false } : cercanos(l);
+      f.dEst.textContent = ETQ[l.st];
+      f.dRep.textContent = textoReportes(l);
+      f.dTraf.textContent = l.tranc ? 'Reportan trancón cerca' : 'Nadie ha reportado trancón';
+      f.dAlt.hidden = !alt.lista.length; f.dBien.hidden = l.st !== 'espacio';
+      f.dAltT.textContent = alt.fallback ? 'Cerca, sin reportes todavía:' : 'Opciones cerca con espacio:';
       f.dAltB.forEach(function (bt, i) {
-        var o = alts[i]; bt.hidden = !o; bt.lugar = o;
-        if (o) bt.textContent = o.nombre + ' · ' + zonas[o.zona].nombre + ' · ' + o.v + '% · ≈ ' + Math.max(1, Math.round(o.d * 0.3)) + ' cuadras';
+        var x = alt.lista[i]; bt.hidden = !x; bt.lugar = x ? x.o : null;
+        if (x) bt.textContent = x.o.nombre + ' · ' + zonas[x.o.zona].nombre + ' · ≈ ' + Math.max(1, Math.round(x.d * 0.3)) + ' cuadras' + (alt.fallback ? ' · Sin reportes' : '');
       });
+    }
+    function resumenZona(z) {
+      var k = 0, rep = 0;
+      z.lugares.forEach(function (l) { if (l.st === 'espacio') k++; if (l.st !== 'sin') rep++; });
+      return { k: k, rep: rep };
     }
     function construirFicha() {
       lista.textContent = ''; filas = [];
+      if (fallo || !vivo) return;
       if (!estado.zona) {
         orden.forEach(function (id) {
-          var z = zonas[id], f = fila(z.nombre, null, z.lugares.length + ' lugares de ejemplo');
+          var z = zonas[id], f = fila(z.nombre, z.lugares.length ? z.lugares.length + (z.lugares.length === 1 ? ' lugar' : ' lugares') : 'Todavía sin lugares');
           f.zona = z; f.b.addEventListener('click', function () { seleccionarZona(id, false); });
           filas.push(f); lista.appendChild(f.li);
         });
+      } else if (!zonas[estado.zona].lugares.length) {
+        nodo('li', 'vacio-zona', 'Todavía no hay lugares en esta zona.', lista);
       } else {
         zonas[estado.zona].lugares.forEach(function (l) {
-          var f = fila(l.nombre, '(ejemplo)', zonas[l.zona].nombre + ' · ' + l.musica);
+          var f = fila(l.nombre, zonas[l.zona].nombre + (l.musica ? ' · ' + l.musica : ''));
           f.lugar = l; armarDetalle(f);
           f.b.addEventListener('click', function () { abrirLugar(estado.lugar === l ? null : l, false); });
           filas.push(f); lista.appendChild(f.li);
         });
       }
     }
+    function pintarFila(f, clave, texto, tr) { ponerClase(f.b, CLS[clave]); f.txt.nodeValue = texto; f.tr.textContent = tr ? 'Trancón cerca' : ''; }
     function actualizarFicha() {
-      var h = horaTexto(estado.hora);
+      if (fallo) { kicker.textContent = estado.zona ? zonas[estado.zona].nombre : 'Toda Bogotá'; titulo.textContent = estado.zona ? zonas[estado.zona].nombre : 'Bogotá esta noche'; resumen.textContent = FALLO; return; }
+      if (!vivo) { resumen.textContent = 'Cargando los reportes…'; return; }
       if (!estado.zona) {
-        var llenos = lugares.filter(function (l) { return l.v >= 80; }).length;
-        kicker.textContent = 'Toda Bogotá · ' + h;
+        var k = 0, ll = 0;
+        lugares.forEach(function (l) { if (l.st === 'espacio') k++; if (l.st === 'lleno') ll++; });
+        kicker.textContent = 'Toda Bogotá · en vivo';
         titulo.textContent = 'Bogotá esta noche';
-        resumen.textContent = llenos ? llenos + (llenos === 1 ? ' lugar de 14 pasa' : ' lugares de 14 pasan') + ' del 80%. Toca una zona para verla de cerca.' : 'Ningún lugar pasa del 80%. Buena hora para salir.';
+        resumen.textContent = !lugares.length ? 'Todavía no hay lugares cargados.' : lugares.length + (lugares.length === 1 ? ' lugar' : ' lugares') + ': ' + k + ' con espacio y ' + ll + ' llenos según lo que reporta la gente. Toca una zona para verla de cerca.';
       } else {
-        var z = zonas[estado.zona], mejor = z.lugares.slice().sort(function (a, b) { return a.v - b.v; })[0];
-        kicker.textContent = 'Zona ' + ('0' + z.seg).slice(-2) + '/07 · ' + h;
+        var z = zonas[estado.zona], r = resumenZona(z);
+        kicker.textContent = 'Zona ' + ('0' + z.seg).slice(-2) + '/07 · en vivo';
         titulo.textContent = z.nombre;
-        resumen.textContent = 'Promedio ' + promedio(z) + '%. ' + (mejor.v >= 80 ? 'Toda la zona está llena: prueba otra o llega más temprano.' : 'Con más espacio: ' + mejor.nombre + ' (' + mejor.v + '%).');
+        if (!z.lugares.length) resumen.textContent = 'Todavía no hay lugares en esta zona.';
+        else {
+          var mejor = z.lugares.filter(function (l) { return l.st === 'espacio'; })[0];
+          resumen.textContent = mejor ? 'Con espacio: ' + mejor.nombre + '.' : r.rep ? 'Ningún lugar de la zona reporta espacio ahora.' : 'Nadie ha reportado en esta zona todavía.';
+        }
       }
       filas.forEach(function (f) {
-        if (f.zona) { pintarFila(f, promedio(f.zona)); return; }
-        pintarFila(f, f.lugar.v);
-        f.b.classList.toggle('atenuado', estado.espacio && f.lugar.v >= 80);
+        if (f.zona) {
+          var r2 = resumenZona(f.zona), z2 = f.zona;
+          var c = r2.k ? 'espacio' : z2.lugares.some(function (l) { return l.st === 'fila'; }) ? 'fila' : z2.lugares.some(function (l) { return l.st === 'lleno'; }) ? 'lleno' : 'sin';
+          pintarFila(f, c, !z2.lugares.length ? 'Sin lugares' : !r2.rep ? 'Sin reportes' : r2.k ? r2.k + ' con espacio' : 'Sin espacio', false);
+          return;
+        }
+        pintarFila(f, f.lugar.st, ETQ[f.lugar.st], f.lugar.tranc);
         if (estado.lugar === f.lugar) llenarDetalle(f);
       });
     }
     function pintar() {
-      horaSalida.value = horaTexto(estado.hora);
-      hora.setAttribute('aria-valuetext', horaSalida.value);
+      if (!vivo) return;
+      calcular();
       lugares.forEach(function (l) {
-        l.v = valor(l);
-        var e = estadoDe(l.v)[0], apagado = estado.espacio && l.v >= 80;
-        ponerClase(l.g, e); ponerClase(l.calor, e);
-        l.calor.setAttribute('r', ((8 + l.v * 0.2) * escala).toFixed(1));
-        l.g.classList.toggle('apagado', apagado); l.calor.classList.toggle('apagado', apagado);
+        var c = CLS[l.st];
+        ponerClase(l.g, c); ponerClase(l.calor, c);
+        l.g.classList.toggle('tranc', l.tranc);
+        l.calor.setAttribute('r', radioCalor(l));
       });
       actualizarFicha();
+    }
+    /* A lo sumo cada 2 s */
+    var ultimoPintado = 0, pendiente = 0;
+    function pedirPintar() {
+      var d = Date.now() - ultimoPintado;
+      if (d >= 2000) { ultimoPintado = Date.now(); pintar(); return; }
+      if (pendiente) return;
+      pendiente = setTimeout(function () { pendiente = 0; ultimoPintado = Date.now(); pintar(); }, 2000 - d);
     }
 
     function seleccionarZona(id, desdeMapa) {
@@ -966,45 +1125,372 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
 
     chips.forEach(function (c) { c.addEventListener('click', function () { seleccionarZona(c.dataset.zona || null, false); }); });
     volver.addEventListener('click', function () { seleccionarZona(null, false); });
+    setInterval(function () { if (!document.hidden && vivo) pedirPintar(); }, 60000);
 
-    /* Hora de la noche: a mano o en recorrido de 20:00 a 03:00 */
-    var reloj = 0;
-    function pararNoche() { if (!reloj) return; clearInterval(reloj); reloj = 0; verNoche.textContent = 'Ver cómo se llena la noche'; verNoche.setAttribute('aria-pressed', 'false'); }
-    hora.addEventListener('input', function () { pararNoche(); estado.hora = +hora.value; pintar(); });
-    verNoche.addEventListener('click', function () {
-      if (reloj) { pararNoche(); return; }
-      if (estado.hora >= 14) estado.hora = 0;
-      verNoche.textContent = 'Pausar'; verNoche.setAttribute('aria-pressed', 'true');
-      function paso() { hora.value = estado.hora; pintar(); if (estado.hora >= 14) { pararNoche(); return; } estado.hora++; }
-      paso(); reloj = setInterval(paso, 700);
-    });
-    conEspacio.addEventListener('click', function () { estado.espacio = !estado.espacio; conEspacio.setAttribute('aria-pressed', String(estado.espacio)); pintar(); });
-
-    /* Los reportes de la gente mueven un poco el semáforo cada rato */
-    setInterval(function () {
-      if (document.hidden || reloj) return;
-      lugares.forEach(function (l) { l.ruido = Math.max(-5, Math.min(5, l.ruido + Math.round(Math.random() * 4 - 2))); });
-      pintar();
-    }, 6000);
-
-    construirFicha(); pintar(); aplicarVB(vb);
+    aplicarVB(vb); actualizarFicha();
     if (vz && movimiento && 'IntersectionObserver' in window) {
       var ov = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { ov.disconnect(); if (!estado.zona) reproducirZona(0); } }, { threshold: 0.5 });
       ov.observe(vz);
     }
+
+    function anotar(r) {
+      if (r.id != null) { if (vistos[r.id]) return false; vistos[r.id] = 1; }
+      reportes.push({ lugar_id: r.lugar_id, tipo: r.tipo, t: Date.parse(r.creado) || Date.now() });
+      return true;
+    }
+    return {
+      lugares: function (rows) { fallo = false; construirLugares(rows); vivo = true; construirFicha(); ultimoPintado = Date.now(); pintar(); },
+      reportes: function (rows) { reportes = []; vistos = {}; rows.forEach(anotar); ultimoPintado = Date.now(); pintar(); },
+      nuevo: function (r) { if (r && anotar(r)) pedirPintar(); },
+      fallo: function () { fallo = true; vivo = false; construirFicha(); actualizarFicha(); }
+    };
   })();
 
-  /* Reporte de ejemplo: así avisa la gente cómo está el sitio */
-  var repEstado = document.getElementById('reporte-estado');
-  document.querySelectorAll('.reporte-botones button').forEach(function (b, i, todos) {
-    b.addEventListener('click', function () {
-      todos.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      repEstado.textContent = 'Gracias. Tu reporte de «' + b.dataset.r + '» se suma al de la gente que está allá y el mapa se actualiza para todos. Es un ejemplo: aquí no se guarda nada.';
+  /* ===== Tarjeta de reporte ===== */
+  var reporteApi = (function () {
+    var sel = $('rep-lugar'), estadoEl = $('reporte-estado');
+    var botones = Array.prototype.slice.call(document.querySelectorAll('.reporte-botones button'));
+    var ctl = document.querySelector('.reporte-ctl');
+    ctl.hidden = false;
+    function msg(t) { estadoEl.textContent = t; }
+    botones.forEach(function (b) {
+      b.addEventListener('click', async function () {
+        if (!sb) { msg(FALLO); return; }
+        if (!sel.value) { msg('Primero escoge en qué lugar estás.'); sel.focus(); return; }
+        botones.forEach(function (x) { x.disabled = true; });
+        msg('Enviando…');
+        try {
+          var id = await asegurarUsuario();
+          var r = await sb.from('reportes').insert({ lugar_id: sel.value, tipo: b.dataset.r, autor: id });
+          if (r.error) throw r.error;
+          msg('Gracias. Tu reporte ya se ve en el mapa.');
+          recargarReportes();
+        } catch (e) { msg(msgError(e)); }
+        botones.forEach(function (x) { x.disabled = false; });
+      });
     });
-  });
+    return {
+      lugares: function (rows) {
+        while (sel.options.length > 1) sel.remove(1);
+        Object.keys(ZONAS).forEach(function (z) {
+          var los = rows.filter(function (l) { return l.zona === z; });
+          if (!los.length) return;
+          var g = document.createElement('optgroup'); g.label = ZONAS[z];
+          los.forEach(function (l) { var o = document.createElement('option'); o.value = String(l.id); o.textContent = l.nombre; g.appendChild(o); });
+          sel.appendChild(g);
+        });
+      },
+      fallo: function () { msg(FALLO); },
+      preseleccionar: function (id) {
+        sel.value = String(id);
+        document.querySelector('#aforo .reporte').scrollIntoView({ behavior: movimiento ? 'smooth' : 'auto', block: 'center' });
+        try { sel.focus({ preventScroll: true }); } catch (e) { sel.focus(); }
+      }
+    };
+  })();
 
-  /* Formularios: consentimiento registrado + antibots + envío sin salir de la página */
-  var LEGAL_VERSION = 'terminos 2026-11-02 · privacidad 2026-11-02';
+  /* ===== Parches y chat ===== */
+  var parchesApi = (function () {
+    var tablero = $('tablero'), vacio = $('tablero-msg');
+    var lista = [], mios = {}, filtro = 'todas', fallo = false, primera = true, ultimoAlias = '';
+    var ioFilas = null;
+    document.querySelectorAll('#salidas [data-js]').forEach(function (e) { e.hidden = false; });
+
+    function estadoDe(p, n) { return n >= p.cupo ? ['lleno', 'Lleno'] : p.cupo - n <= 2 ? ['ultimos', 'Últimos cupos'] : ['abordando', 'Abordando']; }
+    function cuenta(p) { return p.miembros && p.miembros[0] && p.miembros[0].count != null ? +p.miembros[0].count : 0; }
+
+    function render(animar) {
+      tablero.textContent = '';
+      if (ioFilas) { ioFilas.disconnect(); ioFilas = null; }
+      vacio.hidden = true;
+      if (fallo) { vacio.textContent = FALLO; vacio.hidden = false; return; }
+      if (!lista.length) { vacio.textContent = 'Todavía no hay parches. Crea el primero.'; vacio.hidden = false; return; }
+      var visibles = 0, filasEl = [];
+      lista.forEach(function (p) {
+        var d = new Date(p.hora), n = cuenta(p), est = estadoDe(p, n), soy = !!mios[p.id];
+        var li = nodo('li', 'salida'); li.dataset.musica = p.musica; li.dataset.id = p.id;
+        var h = nodo('span', 'hora', null, li); nodo('span', 'flap', hhmm(d), h);
+        var dia = etiquetaDia(d); if (dia) nodo('small', null, dia, h);
+        nodo('span', 'parche flap', p.titulo, li);
+        var z = nodo('span', 'zona', null, li); nodo('span', 'flap', ZONAS[p.zona] || p.zona, z);
+        var lg = p.lugar_id != null ? LUGPOR[String(p.lugar_id)] : null; if (lg) nodo('small', null, lg.nombre, z);
+        nodo('span', 'musica flap', MUSICAS[p.musica] || p.musica, li);
+        nodo('span', 'cupos flap', n + '/' + p.cupo, li);
+        nodo('span', 'estado estado-' + est[0] + ' flap', est[1], li);
+        var bt = nodo('button', 'boton', soy ? 'Abrir chat' : est[0] === 'lleno' ? 'Lleno' : 'Unirme', li); bt.type = 'button';
+        if (!soy && est[0] === 'lleno') { bt.disabled = true; bt.setAttribute('aria-disabled', 'true'); }
+        else bt.addEventListener('click', function () { soy ? abrirChat(p) : abrirUnirse(p); });
+        li.querySelectorAll('.flap').forEach(prepararCelda);
+        var ve = filtro === 'todas' || p.musica === filtro; li.hidden = !ve; if (ve) visibles++;
+        tablero.appendChild(li); filasEl.push(li);
+      });
+      if (!visibles) { vacio.textContent = 'No hay parches con esa música todavía. Crea el primero.'; vacio.hidden = false; }
+      if (animar && movimiento && 'IntersectionObserver' in window) {
+        ioFilas = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (!e.isIntersecting) return; voltearFila(e.target, filasEl.indexOf(e.target) % 6 * 140); ioFilas.unobserve(e.target); });
+        }, { threshold: 0.4 });
+        filasEl.forEach(function (f) { ioFilas.observe(f); });
+      }
+    }
+
+    async function cargar() {
+      if (!sb) { fallo = true; render(false); return; }
+      try {
+        var r = await sb.from('parches').select('id,titulo,zona,musica,lugar_id,hora,cupo,miembros(count)').gte('hora', new Date(Date.now() - 6 * 36e5).toISOString()).order('hora');
+        if (r.error) throw r.error;
+        lista = r.data || []; fallo = false;
+        var id = await sesionActual();
+        if (id) {
+          var m = await sb.from('miembros').select('parche_id').eq('usuario', id);
+          if (!m.error) { mios = {}; (m.data || []).forEach(function (x) { mios[x.parche_id] = 1; }); }
+        }
+      } catch (e) { fallo = true; }
+      render(primera); primera = false;
+    }
+    var deb = 0;
+    function refrescar() { clearTimeout(deb); deb = setTimeout(cargar, 500); }
+
+    /* Filtros por música */
+    document.querySelectorAll('.filtros button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        filtro = b.dataset.filtro; var n = 0, vis = 0;
+        document.querySelectorAll('.filtros button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+        tablero.querySelectorAll('.salida').forEach(function (fila) {
+          var ve = filtro === 'todas' || fila.dataset.musica === filtro;
+          fila.hidden = !ve;
+          if (ve) { vis++; if (movimiento) voltearFila(fila, n++ * 120); }
+        });
+        if (!fallo && lista.length) { vacio.hidden = vis > 0; if (!vis) vacio.textContent = 'No hay parches con esa música todavía. Crea el primero.'; }
+      });
+    });
+
+    /* Crear parche */
+    var fc = $('form-parche'), abrirBtn = $('crear-abrir'), pEstado = $('p-estado');
+    function opciones(sel, mapa, vacioTxt) {
+      sel.textContent = '';
+      if (vacioTxt) { var o0 = document.createElement('option'); o0.value = ''; o0.textContent = vacioTxt; sel.appendChild(o0); }
+      Object.keys(mapa).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = mapa[k]; sel.appendChild(o); });
+    }
+    opciones($('p-zona'), ZONAS); opciones($('p-musica'), MUSICAS);
+    function lugaresDeZona() {
+      var sel = $('p-lugar'); sel.textContent = '';
+      var o0 = document.createElement('option'); o0.value = ''; o0.textContent = 'Sin lugar definido'; sel.appendChild(o0);
+      LUG.filter(function (l) { return l.zona === $('p-zona').value; }).forEach(function (l) { var o = document.createElement('option'); o.value = String(l.id); o.textContent = l.nombre; sel.appendChild(o); });
+    }
+    $('p-zona').addEventListener('change', lugaresDeZona);
+    function pad(n) { return ('0' + n).slice(-2); }
+    function localISO(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+    function abrirCrear() {
+      var ahora = new Date(), def = new Date(); def.setHours(22, 0, 0, 0); if (def <= ahora) def = new Date(def.getTime() + 864e5);
+      $('p-hora').min = localISO(ahora); $('p-hora').value = localISO(def);
+      $('p-alias').value = ultimoAlias || $('p-alias').value;
+      lugaresDeZona(); pEstado.textContent = ''; pEstado.className = 'estado-envio';
+      fc.hidden = false; abrirBtn.setAttribute('aria-expanded', 'true');
+      $('p-titulo').focus();
+    }
+    function cerrarCrear() { fc.hidden = true; abrirBtn.setAttribute('aria-expanded', 'false'); abrirBtn.focus(); }
+    abrirBtn.addEventListener('click', function () { fc.hidden ? abrirCrear() : cerrarCrear(); });
+    $('p-cancelar').addEventListener('click', cerrarCrear);
+    function avisoP(t, c) { pEstado.textContent = t; pEstado.className = 'estado-envio ' + (c || ''); }
+    fc.addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      var titulo = $('p-titulo').value.trim(), alias = $('p-alias').value.trim(), cupo = parseInt($('p-cupo').value, 10);
+      var d = new Date($('p-hora').value);
+      if (titulo.length < 3 || titulo.length > 60) { avisoP('El título debe tener entre 3 y 60 letras.', 'error'); $('p-titulo').focus(); return; }
+      if (isNaN(d.getTime())) { avisoP('Escoge la fecha y la hora.', 'error'); $('p-hora').focus(); return; }
+      if (d.getTime() < Date.now() - 5 * 60000) { avisoP('La hora ya pasó. Escoge una hora de ahora en adelante.', 'error'); $('p-hora').focus(); return; }
+      if (d.getTime() > Date.now() + 7 * 864e5 - 60000) { avisoP('Solo puedes crear parches para los próximos 7 días.', 'error'); $('p-hora').focus(); return; }
+      if (!(cupo >= 2 && cupo <= 12)) { avisoP('El cupo debe ser de 2 a 12 personas.', 'error'); $('p-cupo').focus(); return; }
+      if (alias.length < 2 || alias.length > 24) { avisoP('Tu alias debe tener entre 2 y 24 letras.', 'error'); $('p-alias').focus(); return; }
+      if (!$('p-edad').checked) { avisoP('Para crear un parche debes ser mayor de 18 y aceptar las reglas.', 'error'); $('p-edad').focus(); return; }
+      if (!sb) { avisoP(FALLO, 'error'); return; }
+      var btn = $('p-enviar'); btn.disabled = true; avisoP('Creando…');
+      try {
+        var uid = await asegurarUsuario();
+        var r = await sb.from('parches').insert({ titulo: titulo, zona: $('p-zona').value, musica: $('p-musica').value, lugar_id: $('p-lugar').value || null, hora: d.toISOString(), cupo: cupo, creador: uid }).select('id').single();
+        if (r.error) throw r.error;
+        var m = await sb.from('miembros').insert({ parche_id: r.data.id, usuario: uid, alias: alias });
+        if (m.error) throw m.error;
+        ultimoAlias = alias; mios[r.data.id] = 1;
+        fc.hidden = true; abrirBtn.setAttribute('aria-expanded', 'false'); fc.reset();
+        await cargar();
+        var p = lista.filter(function (x) { return x.id === r.data.id; })[0];
+        if (p) abrirChat(p);
+      } catch (e) { avisoP(msgError(e), 'error'); }
+      btn.disabled = false;
+    });
+
+    /* Unirse */
+    var panel = $('panel'), fu = $('form-unirse'), chat = $('chat'), uEstado = $('u-estado'), unirseA = null;
+    function irAlPanel() { panel.scrollIntoView({ behavior: movimiento ? 'smooth' : 'auto', block: 'nearest' }); }
+    function abrirUnirse(p) {
+      cerrarChat(true);
+      unirseA = p; panel.hidden = false; fu.hidden = false; chat.hidden = true;
+      $('u-titulo').textContent = 'Unirte a «' + p.titulo + '»';
+      $('u-alias').value = ultimoAlias; uEstado.textContent = ''; uEstado.className = 'estado-envio';
+      irAlPanel(); $('u-alias').focus({ preventScroll: true });
+    }
+    $('u-cancelar').addEventListener('click', function () { fu.hidden = true; panel.hidden = true; unirseA = null; });
+    fu.addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      function aviso(t, c) { uEstado.textContent = t; uEstado.className = 'estado-envio ' + (c || ''); }
+      var alias = $('u-alias').value.trim(), p = unirseA;
+      if (!p) return;
+      if (alias.length < 2 || alias.length > 24) { aviso('Tu alias debe tener entre 2 y 24 letras.', 'error'); $('u-alias').focus(); return; }
+      if (!$('u-edad').checked) { aviso('Para unirte debes ser mayor de 18 y aceptar las reglas.', 'error'); $('u-edad').focus(); return; }
+      if (!sb) { aviso(FALLO, 'error'); return; }
+      var btn = $('u-enviar'); btn.disabled = true; aviso('Entrando…');
+      try {
+        var uid = await asegurarUsuario();
+        var r = await sb.from('miembros').insert({ parche_id: p.id, usuario: uid, alias: alias });
+        if (r.error) throw r.error;
+        ultimoAlias = alias; mios[p.id] = 1; fu.hidden = true; unirseA = null; $('u-edad').checked = false;
+        await cargar(); abrirChat(p);
+      } catch (e) { aviso(msgError(e), 'error'); }
+      btn.disabled = false;
+    });
+
+    /* Chat */
+    var actual = null, canal = null, msgs = [], conocidos = {}, denunciados = {};
+    var lis = $('chat-msgs'), cEstado = $('chat-estado');
+    function avisoC(t, c) { cEstado.textContent = t; cEstado.className = 'estado-envio ' + (c || ''); }
+    function pintarMsg(m) {
+      var mio = m.autor && m.autor === miId;
+      var li = nodo('li', 'msg' + (mio ? ' mio' : ''));
+      nodo('span', 'meta', (m.alias || 'Anónimo') + ' · ' + hhmm(new Date(m.creado)), li);
+      nodo('span', 'txt', m.texto, li);
+      if (!mio) {
+        var rb = nodo('button', 'msg-rep', 'Reportar', li); rb.type = 'button';
+        rb.setAttribute('aria-label', 'Reportar el mensaje de ' + (m.alias || 'Anónimo'));
+        rb.addEventListener('click', async function () {
+          rb.disabled = true;
+          try {
+            var uid = await asegurarUsuario();
+            var r = await sb.from('denuncias').insert({ mensaje_id: m.id, usuario: uid });
+            if (r.error) throw r.error;
+            denunciados[m.id] = 1;
+            var g = nodo('span', 'msg-gracias', 'Gracias, lo revisamos'); rb.replaceWith(g);
+          } catch (e) { rb.disabled = false; avisoC(msgError(e), 'error'); }
+        });
+        if (denunciados[m.id]) rb.replaceWith(nodo('span', 'msg-gracias', 'Gracias, lo revisamos'));
+      }
+      lis.appendChild(li);
+    }
+    function agregar(m) {
+      if (!m || conocidos[m.id]) return; conocidos[m.id] = 1;
+      var vacioEl = lis.querySelector('.chat-vacio'); if (vacioEl) vacioEl.remove();
+      pintarMsg(m); lis.scrollTop = lis.scrollHeight;
+    }
+    async function abrirChat(p) {
+      cerrarChat(true);
+      actual = p; unirseA = null; panel.hidden = false; fu.hidden = true; chat.hidden = false;
+      $('chat-titulo').textContent = p.titulo;
+      var d = new Date(p.hora), dia = etiquetaDia(d);
+      $('chat-sub').textContent = (dia ? dia + ' · ' : '') + hhmm(d) + ' · ' + (ZONAS[p.zona] || p.zona);
+      lis.textContent = ''; conocidos = {}; avisoC('');
+      nodo('li', 'chat-vacio', 'Cargando mensajes…', lis);
+      irAlPanel();
+      if (!sb) { avisoC(FALLO, 'error'); return; }
+      try {
+        await sesionActual();
+        var r = await sb.from('mensajes').select('id,alias,texto,creado,autor').eq('parche_id', p.id).order('creado');
+        if (actual !== p) return;
+        if (r.error) throw r.error;
+        lis.textContent = '';
+        (r.data || []).forEach(agregar);
+        if (!r.data || !r.data.length) nodo('li', 'chat-vacio', 'Todavía no hay mensajes. Saluda al parche.', lis);
+        lis.scrollTop = lis.scrollHeight;
+        canal = sb.channel('chat-' + p.id).on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mensajes', filter: 'parche_id=eq.' + p.id }, function (ev) { if (actual === p) agregar(ev.new); }).subscribe();
+        $('msg-texto').focus({ preventScroll: true });
+      } catch (e) { if (actual === p) { lis.textContent = ''; avisoC(msgError(e) === GENERICO ? FALLO : msgError(e), 'error'); } }
+    }
+    function cerrarChat(sinPanel) {
+      if (canal && sb) { try { sb.removeChannel(canal); } catch (e) {} }
+      canal = null; actual = null; chat.hidden = true;
+      if (!sinPanel) panel.hidden = true;
+    }
+    $('chat-cerrar').addEventListener('click', function () { cerrarChat(); });
+    $('chat-salir').addEventListener('click', async function () {
+      if (!actual) return;
+      var p = actual, btn = $('chat-salir'); btn.disabled = true;
+      try {
+        var uid = await asegurarUsuario();
+        var r = await sb.from('miembros').delete().eq('parche_id', p.id).eq('usuario', uid);
+        if (r.error) throw r.error;
+        delete mios[p.id]; cerrarChat(); await cargar();
+      } catch (e) { avisoC(msgError(e), 'error'); }
+      btn.disabled = false;
+    });
+    $('form-msg').addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      var inp = $('msg-texto'), texto = inp.value.trim(), p = actual;
+      if (!texto || !p) return;
+      if (texto.length > 300) { avisoC('El mensaje puede tener hasta 300 letras.', 'error'); return; }
+      var btn = $('msg-enviar'); btn.disabled = true; avisoC('');
+      try {
+        var uid = await asegurarUsuario();
+        var r = await sb.from('mensajes').insert({ parche_id: p.id, autor: uid, texto: texto }).select('id,alias,texto,creado,autor').single();
+        if (r.error) throw r.error;
+        inp.value = ''; if (actual === p) agregar(r.data);
+      } catch (e) { avisoC(msgError(e), 'error'); }
+      btn.disabled = false; inp.focus();
+    });
+
+    return { cargar: cargar, refrescar: refrescar, lugares: function () { if (!fc.hidden) lugaresDeZona(); render(false); } };
+  })();
+
+  /* ===== Carga y tiempo real ===== */
+  async function recargarReportes() {
+    if (!sb) return;
+    try {
+      var r = await sb.from('reportes').select('id,lugar_id,tipo,creado').gte('creado', new Date(Date.now() - 90 * 60000).toISOString());
+      if (r.error) throw r.error;
+      mapaApi.reportes(r.data || []);
+    } catch (e) { /* se mantiene lo que ya se veía */ }
+  }
+  async function cargarTodo() {
+    if (!sb) { mapaApi.fallo(); reporteApi.fallo(); await parchesApi.cargar(); return; }
+    try {
+      var r = await sb.from('lugares').select('*');
+      if (r.error) throw r.error;
+      LUG = r.data || []; LUGPOR = {}; LUG.forEach(function (l) { LUGPOR[String(l.id)] = l; });
+      mapaApi.lugares(LUG); reporteApi.lugares(LUG);
+      var q = await sb.from('reportes').select('id,lugar_id,tipo,creado').gte('creado', new Date(Date.now() - 90 * 60000).toISOString());
+      if (q.error) throw q.error;
+      mapaApi.reportes(q.data || []);
+    } catch (e) { mapaApi.fallo(); reporteApi.fallo(); }
+    await parchesApi.cargar();
+    try {
+      sb.channel('nochao-vivo')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'reportes' }, function (p) { mapaApi.nuevo(p.new); })
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'parches' }, function () { parchesApi.refrescar(); })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'miembros' }, function () { parchesApi.refrescar(); })
+        .subscribe();
+    } catch (e) {}
+  }
+  cargarTodo();
+
+  /* ===== Sugerir un lugar (FormSubmit, sin datos personales) ===== */
+  (function () {
+    var f = $('form-sugerencia'), est = $('s-estado');
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      function aviso(t, c) { est.textContent = t; est.className = 'estado-envio ' + (c || ''); }
+      var nombre = f.elements.nombre_lugar.value.trim();
+      if (nombre.length < 2 || nombre.length > 60) { aviso('El nombre debe tener entre 2 y 60 letras.', 'error'); return; }
+      if (f.elements._honey.value) { aviso('Gracias, lo revisamos y lo agregamos si cumple.', 'ok'); return; }
+      if (!window.fetch || !window.FormData) { f.submit(); return; }
+      var btn = f.querySelector('button[type=submit]'); btn.disabled = true; aviso('Enviando…');
+      fetch(f.dataset.ajax, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(f) })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error('error'); }); })
+        .then(function () { f.reset(); aviso('Gracias, lo revisamos y lo agregamos si cumple.', 'ok'); })
+        .catch(function () { aviso(GENERICO, 'error'); })
+        .then(function () { btn.disabled = false; });
+    });
+  })();
+
+  /* Formularios de la lista: consentimiento registrado + antibots + envío sin salir de la página */
+  var LEGAL_VERSION = 'terminos 2026-11-02 v2 · privacidad 2026-11-02 v2';
   var inicio = Date.now();
   function sellarConsentimiento(form) {
     var ok = form.querySelector('[name=acepta_legal]');
