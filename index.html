@@ -187,6 +187,7 @@ p{margin:0;text-wrap:pretty}
 .pin.tranquilo .onda{stroke:var(--verde)}.pin.animado .onda{stroke:var(--flap)}.pin.casi .onda,.pin.lleno .onda{stroke:var(--rojo)}
 .pin .nombre-pin{font:700 8px var(--texto);fill:var(--cemento);paint-order:stroke;stroke:#10131F;stroke-width:3px;opacity:0;transition:opacity .3s;pointer-events:none}
 .plano.cerca .pin.en-zona .nombre-pin,.pin.activo .nombre-pin{opacity:1}
+.pin .nombre-pin.sin-sitio{opacity:0}
 .pin.activo .punto{stroke:var(--cemento);stroke-width:2.5}
 .plano.cerca .zona:not(.activa),.plano.cerca .pin:not(.en-zona),.plano.cerca .calor:not(.en-zona){opacity:.3}
 .pin.apagado,.calor.apagado{opacity:.15}
@@ -461,6 +462,12 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
           <button type="button" aria-pressed="false" data-filtro="electronica">Electrónica</button>
           <button type="button" aria-pressed="false" data-filtro="crossover">Crossover</button>
           <button type="button" aria-pressed="false" data-filtro="vallenato">Vallenato</button>
+          <button type="button" aria-pressed="false" data-filtro="dancehall">Dancehall</button>
+          <button type="button" aria-pressed="false" data-filtro="champeta">Champeta</button>
+          <button type="button" aria-pressed="false" data-filtro="hiphop">Hip hop</button>
+          <button type="button" aria-pressed="false" data-filtro="popular">Popular y despecho</button>
+          <button type="button" aria-pressed="false" data-filtro="tropical">Tropical</button>
+          <button type="button" aria-pressed="false" data-filtro="indie">Indie y alternativo</button>
         </div>
       </div>
 
@@ -588,7 +595,7 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
           </ul>
           <p class="nota">Mapa esquemático, no a escala. Cada estado sale de lo que reporta la gente en los últimos 90 minutos.</p>
           <form class="formulario" id="form-sugerencia" action="https://formsubmit.co/sperezortega48@gmail.com" method="POST" data-ajax="https://formsubmit.co/ajax/sperezortega48@gmail.com">
-            <h3>¿Falta una discoteca? Sugiérela</h3>
+            <h3>¿Falta una discoteca o un bar? Sugiérelo</h3>
             <input type="hidden" name="_subject" value="Nochao · Sugerencia de lugar">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="formulario" value="sugerencia-lugar">
@@ -666,7 +673,7 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
         </ul>
       </div>
       <div class="reporte">
-        <h3 class="reporte-tit" id="reporte-t">¿Estás en una discoteca? Cuéntale a la gente cómo está</h3>
+        <h3 class="reporte-tit" id="reporte-t">¿Estás en una discoteca o un bar? Cuéntale a la gente cómo está</h3>
         <div class="reporte-ctl" data-js hidden>
           <div class="campo"><label for="rep-lugar">¿En qué lugar estás?</label><select id="rep-lugar"><option value="">Escoge el lugar</option></select></div>
           <div class="reporte-botones" role="group" aria-labelledby="reporte-t">
@@ -786,7 +793,7 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
   var FALLO = 'No pudimos cargar los datos en vivo. Recarga la página en un momento.';
   var GENERICO = 'Algo salió mal. Intenta de nuevo en un momento.';
   var ZONAS = { usaquen: 'Usaquén', p93: 'Parque 93', zonat: 'Zona T', zonag: 'Zona G', chapinero: 'Chapinero', galerias: 'Galerías', candelaria: 'La Candelaria' };
-  var MUSICAS = { salsa: 'Salsa', reggaeton: 'Reggaetón', electronica: 'Electrónica', rock: 'Rock', crossover: 'Crossover', vallenato: 'Vallenato' };
+  var MUSICAS = { salsa: 'Salsa', reggaeton: 'Reggaetón', electronica: 'Electrónica', rock: 'Rock', crossover: 'Crossover', vallenato: 'Vallenato', dancehall: 'Dancehall', champeta: 'Champeta', hiphop: 'Hip hop', popular: 'Popular y despecho', tropical: 'Tropical', indie: 'Indie y alternativo' };
   var sb = null;
   try {
     if (window.supabase && NOCHAO_URL.indexOf('TU-PROYECTO') < 0 && NOCHAO_KEY.indexOf('TU-CLAVE') < 0) sb = window.supabase.createClient(NOCHAO_URL, NOCHAO_KEY);
@@ -895,14 +902,37 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
     }
     function irA(dest) {
       cancelAnimationFrame(animVB);
-      if (!movimiento) { vb = dest; aplicarVB(vb); return; }
+      if (!movimiento) { vb = dest; aplicarVB(vb); acomodarNombres(); return; }
       var desde = vb.slice(), t0 = performance.now();
       (function paso(ahora) {
         var u = Math.min(1, (ahora - t0) / 750), e = 1 - Math.pow(1 - u, 3);
         vb = desde.map(function (a, i) { return a + (dest[i] - a) * e; });
         aplicarVB(vb);
-        if (u < 1) animVB = requestAnimationFrame(paso);
+        if (u < 1) animVB = requestAnimationFrame(paso); else acomodarNombres();
       })(t0);
+    }
+
+    /* Nombres de los pines: cada uno prueba derecha, izquierda, arriba y abajo; si no cabe en ningún lado, se oculta */
+    var POSICIONES = [[9, 3, 'start'], [-9, 3, 'end'], [0, -9, 'middle'], [0, 16, 'middle']];
+    function acomodarNombres() {
+      var cerca = svg.closest('.plano').classList.contains('cerca');
+      var puntos = lugares.map(function (l) { return { l: l, r: l.g.querySelector('.punto').getBoundingClientRect() }; });
+      var puestas = [];
+      var visibles = lugares.filter(function (l) { return l.g.classList.contains('activo') || (cerca && l.g.classList.contains('en-zona')); });
+      visibles.sort(function (a, b) { return b.g.classList.contains('activo') - a.g.classList.contains('activo') || a.y - b.y || a.x - b.x; });
+      visibles.forEach(function (l) {
+        var orden = l.x < zonas[l.zona].x ? [1, 0, 2, 3] : [0, 1, 2, 3];
+        var cabe = orden.some(function (i) {
+          var p = POSICIONES[i];
+          l.t.setAttribute('x', p[0]); l.t.setAttribute('y', p[1]); l.t.setAttribute('text-anchor', p[2]);
+          var r = l.t.getBoundingClientRect();
+          var choca = puntos.some(function (c) { return c.l !== l && r.left < c.r.right + 1 && r.right > c.r.left - 1 && r.top < c.r.bottom + 1 && r.bottom > c.r.top - 1; }) ||
+            puestas.some(function (c) { return r.left < c.right + 2 && r.right > c.left - 2 && r.top < c.bottom && r.bottom > c.top; });
+          if (!choca) puestas.push(r);
+          return !choca;
+        });
+        l.t.classList.toggle('sin-sitio', !cabe && !l.g.classList.contains('activo'));
+      });
     }
 
     /* Video HyperFrames: un tramo de 2,5 s por zona; se reproduce y se queda en su último cuadro */
@@ -936,7 +966,8 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
         crear('circle', { 'class': 'onda', r: 6 }, l.g);
         crear('circle', { 'class': 'punto', r: 5.5 }, l.g);
         var izq = l.x < z.x;
-        crear('text', { 'class': 'nombre-pin', x: izq ? -9 : 9, y: 3, 'text-anchor': izq ? 'end' : 'start' }, l.g).textContent = l.nombre;
+        l.t = crear('text', { 'class': 'nombre-pin', x: izq ? -9 : 9, y: 3, 'text-anchor': izq ? 'end' : 'start' }, l.g);
+        l.t.textContent = l.nombre;
         l.g.addEventListener('click', function () { abrirLugar(l, true); });
         z.lugares.push(l); lugares.push(l); porId[l.id] = l;
       });
@@ -1115,6 +1146,7 @@ button.fila-b:active{transform:scale(.985);transition-duration:.1s}
       if (l && l.zona !== estado.zona) seleccionarZona(l.zona, desdeMapa);
       estado.lugar = l;
       lugares.forEach(function (o) { o.g.classList.toggle('activo', o === l); });
+      acomodarNombres();
       filas.forEach(function (f) {
         if (!f.lugar) return;
         var on = f.lugar === l;
